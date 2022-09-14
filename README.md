@@ -4,10 +4,10 @@
 I advise you to use [IntelliJ](https://www.jetbrains.com/idea/)
 We are using [Maven](https://maven.apache.org/what-is-maven.html). It is a tool to build and manage Java Projects.It also allows us to manage dependencies :)
 
-We are also using [https://jdk.java.net/18/](openjdk@18).
+We are also using [openjdk@18](https://jdk.java.net/18/).
 
 ### Install openjdk@18
-[https://jdk.java.net/18/](Link to openjdk@18)
+[openjdk@18](https://jdk.java.net/18/)
 
 If you are on Mac, use homebrew
 `
