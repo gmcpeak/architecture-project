@@ -2,7 +2,9 @@
 
 ## Environment
 I advise you to use [IntelliJ](https://www.jetbrains.com/idea/)
-We are using [https://maven.apache.org/what-is-maven.html](Maven) and openjdk@18. It is a tool to build and manage Java Projects.It also allows us to manage dependencies :)
+We are using [Maven](https://maven.apache.org/what-is-maven.html). It is a tool to build and manage Java Projects.It also allows us to manage dependencies :)
+
+We are also using [https://jdk.java.net/18/](openjdk@18).
 
 ### Install openjdk@18
 [https://jdk.java.net/18/](Link to openjdk@18)
@@ -36,13 +38,13 @@ Ubuntu, use apt.
 
 
 
-Windows, follow this [https://maven.apache.org/install.html](tutorial). 
+Windows, follow this [tutorial](https://maven.apache.org/install.html). 
 
 ### How to use maven
-[https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html](Read this!)
+[Read this!](https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html)
 
 ### Add dependencies
-The only one should be Spring(or whatever grady is using :) ) but [https://www.jetbrains.com/help/idea/work-with-maven-dependencies.html#generate_maven_dependency](here) is a tutorial.
+The only one should be Spring(or whatever grady is using :) ) but [here](https://www.jetbrains.com/help/idea/work-with-maven-dependencies.html#generate_maven_dependency) is a tutorial.
 
 
 ### Testing
