@@ -44,7 +44,7 @@ Windows, follow this [tutorial](https://maven.apache.org/install.html).
 [Read this!](https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html)
 
 ### Add dependencies
-The only one should be Spring(or whatever grady is using :) ) but [here](https://www.jetbrains.com/help/idea/work-with-maven-dependencies.html#generate_maven_dependency) is a tutorial.
+The only one should be Swing but [here](https://www.jetbrains.com/help/idea/work-with-maven-dependencies.html#generate_maven_dependency) is a tutorial.
 
 
 ### Testing
