@@ -3,8 +3,8 @@ package simulator;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RegisterTest {
-//    @org.junit.jupiter.api.Test
-    static void setTest() {
+    @org.junit.jupiter.api.Test
+    void setTest() {
         Register reg = new Register(16);
         reg.setRegisterValue(Helper.intToBinArray(5, 16));
 
@@ -16,7 +16,7 @@ class RegisterTest {
 
     }
 
-    public static void main(String[] args) {
-        setTest();
-    }
+//    public static void main(String[] args) {
+//        setTest();
+//    }
 }

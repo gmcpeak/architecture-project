@@ -54,6 +54,8 @@ public class DRAM {
         address = Helper.arrToInt(MAR.getRegisterValue());
         EA = this.calculateEffectiveAddress(address, IX, I);
 
+        System.out.println(String.format("Computed EA: %d", EA));
+
         returnCode = this.checkAddress(EA);
         if (returnCode != 0) {
             return returnCode;

@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d602c491-6be4-4115-90c1-2ffcc31615e3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/simulator/Instructions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/simulator/DRAM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/DRAM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Register.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Instructions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Instructions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/simulator/RegisterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/simulator/RegisterTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,18 +103,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java</url>
-          <line>371</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java</url>
           <line>93</line>
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/simulator/DRAM.java</url>
-          <line>25</line>
-          <option name="timeStamp" value="23" />
+          <url>file://$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java</url>
+          <line>369</line>
+          <option name="timeStamp" value="25" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
