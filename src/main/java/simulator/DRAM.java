@@ -17,71 +17,63 @@ public class DRAM {
         this.data = new int[this.size];
     }
 
-    public void LDR(int address, Register IX, int I, Register dest) throws Exception {
-        // 1. Calculate Effective Address..
-        int EA = this.calculateEffectiveAddress(address, IX, I);
+    public int load(Register MAR, Register MBR, Register IX, int I, String type) {
+        int address;
+        int EA;
+        int returnCode;
 
-        // 2. validate address
-        this.checkAddress(EA);
+        address = Helper.arrToInt(MAR.getRegisterValue());
+        EA = this.calculateEffectiveAddress(address, IX, I);
 
-        int[] data = fetchBinaryValue(EA);
-        dest.setRegisterValue(data);
-    }
-
-    public void STR(int address, Register IX, int I, Register src) throws Exception {
-        // 1. Calculate Effective Address..
-        int EA = this.calculateEffectiveAddress(address, IX, I);
-
-        // 2. validate address
-        this.checkAddress(EA);
-
-        //3. get register data, store in Mem at EA
-        int[] regData = src.getRegisterValue();
-        for (int i = 0; i < this.wordSize; i++) {
-            this.data[i+EA] = regData[i];
+        returnCode = this.checkAddress(EA);
+        if (returnCode != 0) {
+            return returnCode;
         }
-    }
 
-    public void LDA(int address, Register IX, int I, Register dest) throws Exception {
-        // 1. Calculate Effective Address..
-        // IX is null in this case as we are loading address into IX, we are not indexing
-        int EA = this.calculateEffectiveAddress(address, null, I);
-
-        // 2. validate address
-        this.checkAddress(EA);
-
-        // Storing the EA in IX, not the data
-        int [] binaryEA = Helper.intToBinArray(EA, this.wordSize);
-        dest.setRegisterValue(binaryEA);
-    }
-
-    public void LDX(int address, Register IX, int I) throws Exception {
-        // 1. Calculate Effective Address..
-        // IX is null in this case as we are loading address into IX, we are not indexing
-        int EA = this.calculateEffectiveAddress(address, null, I);
-
-        // 2. validate address
-        this.checkAddress(EA);
-
-        // Storing the EA in IX, not the data
-        int [] binaryEA = Helper.intToBinArray(EA, this.wordSize);
-        IX.setRegisterValue(binaryEA);
-    }
-
-    public void STX(int address, Register IX, int I) throws Exception {
-        // 1. Calculate Effective Address..
-        int EA = this.calculateEffectiveAddress(address, null, I);
-
-        // 2. validate address
-        this.checkAddress(EA);
-
-        //3. get register data, store in Mem at EA
-        int[] regData = IX.getRegisterValue();
-        for (int i = 0; i < this.wordSize; i++) {
-            this.data[i+EA] = regData[i];
+        if (type.toUpperCase().compareTo("R") == 0 || type.toUpperCase().compareTo("X") == 0) {
+            if (type.toUpperCase().compareTo("X") == 0) {
+                EA = Helper.arrToInt(MAR.getRegisterValue());
+            }
+            int[] data = fetchBinaryValue(EA);
+            MBR.setRegisterValue(data);
+        } else if (type.toUpperCase().compareTo("A") == 0) {
+            int [] binaryEA = Helper.intToBinArray(EA, this.wordSize);
+            MBR.setRegisterValue(binaryEA);
+        } else {
+            returnCode = 4;
         }
+
+        return returnCode;
     }
 
+    public int store(Register MAR, Register MBR, Register IX, int I, String type) {
+        int address;
+        int EA;
+        int returnCode;
+
+        address = Helper.arrToInt(MAR.getRegisterValue());
+        EA = this.calculateEffectiveAddress(address, IX, I);
+
+        returnCode = this.checkAddress(EA);
+        if (returnCode != 0) {
+            return returnCode;
+        }
+
+        if (type.toUpperCase().compareTo("R") == 0 || type.toUpperCase().compareTo("X") == 0) {
+            if (type.toUpperCase().compareTo("X") == 0) {
+                EA = Helper.arrToInt(MAR.getRegisterValue());
+            }
+            int[] regData = MBR.getRegisterValue();
+            for (int i = 0; i < this.wordSize; i++) {
+                this.data[i+EA] = regData[i];
+            }
+        }  else {
+            returnCode = 4;
+        }
+
+        return returnCode;
+
+    }
 
     private int calculateEffectiveAddress(int address, Register IX, int I) {
         if (I == 0) {
@@ -95,11 +87,11 @@ public class DRAM {
         }
         else {
             if (IX == null) {
-                return fetchAddress(fetchAddress(address));
+                return fetchAddress(address);
             }
             else {
                 int IXValue = Helper.arrToInt(IX.getRegisterValue());
-                return fetchAddress(  fetchAddress(address) + IXValue  );
+                return   fetchAddress(address) + fetchAddress(IXValue)  ;
 
             }
         }
@@ -113,14 +105,15 @@ public class DRAM {
         return Arrays.copyOfRange(this.data, EA, EA+wordSize);
     }
 
-    private void checkAddress(int address) throws Exception {
+    private int checkAddress(int address)  {
         int endAddress = address + this.wordSize;
         if (address >= 0 && address <= 5) {
-            throw new Exception("Illegal Memory Address to Reserved Locations MFR set to binary 0001");
+            return 1;
         } else if (address < 0 || address >= this.size || endAddress >= this.size) {
-            throw new Exception("Illegal Memory Address beyond 2048(or under 0) (memory installed) MFR set to binary 1000");
+            return 8;
         } else if (address % this.wordSize != 0) {
             System.out.println("Address is not on a word");
         }
+        return 0;
     }
 }
