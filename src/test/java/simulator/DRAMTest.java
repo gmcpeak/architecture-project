@@ -1,7 +1,5 @@
 package simulator;
 
-import org.junit.rules.ExpectedException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -99,7 +97,7 @@ class DRAMTest {
     }
 
     @org.junit.jupiter.api.Test
-    void LDATest() {
+    void LDXTest() {
         DRAM dram = new DRAM(wordSize, dramSize);
         Register IX = new Register(wordSize);
 
@@ -108,13 +106,36 @@ class DRAMTest {
 
         // IX should be 16 at the end
         try{
-            dram.LDA(16, IX, 0);
+            dram.LDX(16, IX, 0);
         }
         catch (Exception e) {
             throw new RuntimeException(e);
         }
 
         int IXVal = Helper.arrToInt(IX.getRegisterValue());
+        int truth = 16;
+
+        assertEquals(truth, IXVal);
+
+    }
+
+    @org.junit.jupiter.api.Test
+    void LDATest() {
+        DRAM dram = new DRAM(wordSize, dramSize);
+        Register r = new Register(wordSize);
+
+        // set IX to 0
+        r.setRegisterValue(Helper.intToBinArray(0, wordSize));
+
+        // IX should be 16 at the end
+        try{
+            dram.LDA(16, null, 0, r);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        int IXVal = Helper.arrToInt(r.getRegisterValue());
         int truth = 16;
 
         assertEquals(truth, IXVal);

@@ -42,7 +42,20 @@ public class DRAM {
         }
     }
 
-    public void LDA(int address, Register IX, int I) throws Exception {
+    public void LDA(int address, Register IX, int I, Register dest) throws Exception {
+        // 1. Calculate Effective Address..
+        // IX is null in this case as we are loading address into IX, we are not indexing
+        int EA = this.calculateEffectiveAddress(address, null, I);
+
+        // 2. validate address
+        this.checkAddress(EA);
+
+        // Storing the EA in IX, not the data
+        int [] binaryEA = Helper.intToBinArray(EA, this.wordSize);
+        dest.setRegisterValue(binaryEA);
+    }
+
+    public void LDX(int address, Register IX, int I) throws Exception {
         // 1. Calculate Effective Address..
         // IX is null in this case as we are loading address into IX, we are not indexing
         int EA = this.calculateEffectiveAddress(address, null, I);
@@ -55,6 +68,19 @@ public class DRAM {
         IX.setRegisterValue(binaryEA);
     }
 
+    public void STX(int address, Register IX, int I) throws Exception {
+        // 1. Calculate Effective Address..
+        int EA = this.calculateEffectiveAddress(address, null, I);
+
+        // 2. validate address
+        this.checkAddress(EA);
+
+        //3. get register data, store in Mem at EA
+        int[] regData = IX.getRegisterValue();
+        for (int i = 0; i < this.wordSize; i++) {
+            this.data[i+EA] = regData[i];
+        }
+    }
 
 
     private int calculateEffectiveAddress(int address, Register IX, int I) {

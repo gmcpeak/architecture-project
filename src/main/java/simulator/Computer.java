@@ -42,8 +42,14 @@ public class Computer {
         // Initialize IX Registers
         System.out.println("Initializing Index Registers");
         this.IXs = new Register[numIX];
-        for (int i = 0; i < numIX; i++)
-            this.IXs[i] = new Register(this.wordSize);
+        for (int i = 0; i < numIX; i++) {
+            if (i == 0) {
+                this.IXs[i] = null;
+            }
+            else {
+                this.IXs[i] = new Register(this.wordSize);
+            }
+        }
 
         // Start UI
         System.out.println("Starting GUI");
@@ -51,7 +57,7 @@ public class Computer {
         UI.run_ui();
     }
     public static void main(String[] args) {
-        Computer cpu = new Computer(16, 2048, 4, 3);
+        Computer cpu = new Computer(16, 2048, 4, 3+1);
     }
 }
 
