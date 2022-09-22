@@ -1,6 +1,5 @@
 package simulator;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class DRAM {
@@ -18,7 +17,7 @@ public class DRAM {
         this.data = new int[this.size];
     }
 
-    public void load(int address, Register IX, int I, Register dest) throws Exception {
+    public void LDR(int address, Register IX, int I, Register dest) throws Exception {
         // 1. Calculate Effective Address..
         int EA = this.calculateEffectiveAddress(address, IX, I);
 
@@ -29,19 +28,34 @@ public class DRAM {
         dest.setRegisterValue(data);
     }
 
-    public void store(int address, Register IX, int I, Register src) throws Exception {
+    public void STR(int address, Register IX, int I, Register src) throws Exception {
         // 1. Calculate Effective Address..
         int EA = this.calculateEffectiveAddress(address, IX, I);
 
         // 2. validate address
         this.checkAddress(EA);
 
-        int[] data = fetchBinaryValue(EA);
+        //3. get register data, store in Mem at EA
         int[] regData = src.getRegisterValue();
         for (int i = 0; i < this.wordSize; i++) {
             this.data[i+EA] = regData[i];
         }
     }
+
+    public void LDA(int address, Register IX, int I) throws Exception {
+        // 1. Calculate Effective Address..
+        // IX is null in this case as we are loading address into IX, we are not indexing
+        int EA = this.calculateEffectiveAddress(address, null, I);
+
+        // 2. validate address
+        this.checkAddress(EA);
+
+        // Storing the EA in IX, not the data
+        int [] binaryEA = Helper.intToBinArray(EA, this.wordSize);
+        IX.setRegisterValue(binaryEA);
+    }
+
+
 
     private int calculateEffectiveAddress(int address, Register IX, int I) {
         if (I == 0) {
@@ -74,9 +88,10 @@ public class DRAM {
     }
 
     private void checkAddress(int address) throws Exception {
+        int endAddress = address + this.wordSize;
         if (address >= 0 && address <= 5) {
             throw new Exception("Illegal Memory Address to Reserved Locations MFR set to binary 0001");
-        } else if (address < 0 || address >= this.size) {
+        } else if (address < 0 || address >= this.size || endAddress >= this.size) {
             throw new Exception("Illegal Memory Address beyond 2048(or under 0) (memory installed) MFR set to binary 1000");
         } else if (address % this.wordSize != 0) {
             System.out.println("Address is not on a word");

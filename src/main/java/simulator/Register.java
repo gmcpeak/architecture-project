@@ -2,8 +2,8 @@ package simulator;
 
 public class Register {
     int[] data;
-    public Register(int wordSize) {
-        this.data = new int[wordSize];
+    public Register(int size) {
+        this.data = new int[size];
     }
 
     public  int[] getRegisterValue() {
