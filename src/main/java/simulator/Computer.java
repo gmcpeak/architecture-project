@@ -10,12 +10,28 @@ public class Computer {
     Register[] GPRs;
     Register[] IXs;
 
+
+    Register PC;
+    Register CC;
+    Register IR;
+    Register MBR;
+    Register MAR;
+    Register MFR;
+
     // UI
     UI ui;
 
     public Computer(int wordSize, int dramSize, int numGPR, int numIX) {
         this.wordSize = wordSize;
         this.dram = new DRAM(wordSize, dramSize);
+
+        // initialize some registers
+        this.PC = new Register(12);
+        this.CC = new Register(4);
+        this.IR = new Register(16);
+        this.MAR = new Register(12);
+        this.MBR = new Register(16);
+        this.MFR = new Register(4);
 
         // Initialize GPRs
         System.out.println("Initializing General Purpose Registers");
