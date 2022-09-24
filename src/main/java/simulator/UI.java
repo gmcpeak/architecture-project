@@ -16,11 +16,8 @@ public class UI {
     static ArrayList <JLabel> GPRs;
     static ArrayList <JLabel> idxRs;
     private static void execute_binary_code(String input, Computer c) {
-        if (c.parser.parse_and_call(input, c)) {
-            System.out.println(input);
-        } else {
-            // throw error and exit
-        }
+        c.parser.parse_and_call(input, c);
+        refresh(c);
     }
 
     public static void refresh(Computer c) {

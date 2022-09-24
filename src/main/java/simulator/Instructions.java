@@ -93,7 +93,7 @@ public class Instructions {
     public static int STR(DRAM dram, Register MAR, Register MBR, Register IX, Register registerTarget,
                           int indirect, Register MFR) {
         System.out.println("------------------------------");
-
+        MBR.setRegisterValue(registerTarget.getRegisterValue());
         System.out.println("STR INSTRUCTION CALLED");
         System.out.println(String.format("MBR VALUE %s", Arrays.toString(MBR.getRegisterValue())));
         System.out.println(String.format("MAR VALUE %s", Arrays.toString(MAR.getRegisterValue())));
