@@ -134,7 +134,7 @@ public class Instructions {
         }
 
         MBR.setRegisterValue(IX.getRegisterValue());
-        int faultCode = dram.store(MAR, MBR, IX, indirect, "R");
+        int faultCode = dram.store(MAR, MBR, null, indirect, "X");
 
         System.out.println("AFTER STX");
         System.out.println(String.format("MBR VALUE %s", Arrays.toString(MBR.getRegisterValue())));
