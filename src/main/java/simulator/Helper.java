@@ -32,7 +32,13 @@ public class Helper {
 
     public static String arrToDisplayString(int[] array) {
         String str = arrToString(array);
-        String disp = str.substring(0, 4)+" "+str.substring(4, 8)+" "+str.substring(8, 12)+" "+str.substring(12, 16);
+        String disp = "";
+        for (int i = 0; i < array.length; i+=4) {
+            disp += str.substring(i, i+4);
+            if (i+4 < array.length) {
+                disp += " ";
+            }
+        }
         return disp;
     }
     public static int arrToInt(int[] array) {

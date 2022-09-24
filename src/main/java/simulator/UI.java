@@ -13,8 +13,12 @@ public class UI {
     JPanel GPR_area;
     JPanel idxR_area;
     JPanel instruction_area;
+    JPanel program_area;
     static ArrayList <JLabel> GPRs;
     static ArrayList <JLabel> idxRs;
+    static JLabel program_counter;
+    static JLabel mar;
+    static JLabel value_at_mar;
     private static void execute_binary_code(String input, Computer c) {
         c.parser.parse_and_call(input, c);
         refresh(c);
@@ -27,11 +31,14 @@ public class UI {
                 idxRs.get(i-1).setText("X"+String.valueOf(i)+ ": "+Helper.arrToDisplayString(c.IXs[i].data));
             }
         }
+        program_counter.setText("PC: "+Helper.arrToDisplayString(c.PC.data));
+        mar.setText("MAR: "+Helper.arrToDisplayString(c.MAR.data));
+        value_at_mar.setText("Value: "+Helper.arrToDisplayString(c.dram.fetchBinaryValue(Helper.arrToInt(c.MAR.data))));
     }
 
     private void createAndShowGUI(Computer c) {
         base_frame = new JFrame();
-        base_frame.setLayout(new GridLayout(2, 1));
+        base_frame.setLayout(new GridLayout(3, 1));
         base_frame.setSize(1200,600);
         base_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -102,7 +109,46 @@ public class UI {
         instruction_area.add(in_text);
         instruction_area.add(execute_button);
         base_frame.add(instruction_area);
+
+        program_area = new JPanel();
+        program_area.setLayout(new GridLayout(1, 2));
+        JPanel run_area = new JPanel();
+        program_counter = new JLabel("PC: 0000 0000 0000");
+        run_area.add(program_counter);
+        JButton load_program_button = new JButton("IPL (Load program.txt)");
+        load_program_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Button pushed");
+            }
+        });
+        run_area.add(load_program_button);
+        JButton step_button = new JButton("Step");
+        step_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Button pushed");
+            }
+        });
+        run_area.add(step_button);
+        JButton run_program_button = new JButton("Run");
+        run_program_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Button pushed");
+            }
+        });
+        run_area.add(run_program_button);
+        program_area.add(run_area);
+        JPanel memory_area = new JPanel();
+        mar = new JLabel("MAR: 0000 0000 0000");
+        memory_area.add(mar);
+        value_at_mar = new JLabel("Value: 0000 0000 0000 0000");
+        memory_area.add(value_at_mar);
+        program_area.add(memory_area);
+        base_frame.add(program_area);
         base_frame.setVisible(true);
+
     }
 
     public void run_ui(Computer c) {

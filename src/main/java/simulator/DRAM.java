@@ -99,11 +99,11 @@ public class DRAM {
         }
     }
 
-    private int fetchAddress(int EA) {
+    int fetchAddress(int EA) {
         return Helper.arrToInt(Arrays.copyOfRange(this.data, EA, EA+wordSize));
     }
 
-    private int[] fetchBinaryValue(int EA) {
+    int[] fetchBinaryValue(int EA) {
         return Arrays.copyOfRange(this.data, EA, EA+wordSize);
     }
 
