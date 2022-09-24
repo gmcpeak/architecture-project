@@ -34,12 +34,12 @@ public class Parser {
                 c.MAR.setRegisterValue(Helper.intToBinArray(params_03[3], 16));
                 Instructions.LDA(c.dram, c.MAR, c.MBR, c.IXs[params_03[1]], c.GPRs[params_03[0]], params_03[2], c.MFR);
                 break;
-            case "100001": // Octal 41, load index register from memory
+            case "101001": // Octal 41, load index register from memory
                 int[] params_41 = parse_for_load_store(in);
                 c.MAR.setRegisterValue(Helper.intToBinArray(params_41[3], 16));
                 Instructions.LDX(c.dram, c.MAR, c.MBR, c.IXs[params_41[1]], params_41[2], c.MFR);
                 break;
-            case "100010": // Octal 42, store index register to memory
+            case "101010": // Octal 42, store index register to memory
                 int[] params_42 = parse_for_load_store(in);
                 c.MAR.setRegisterValue(Helper.intToBinArray(params_42[3], 16));
                 Instructions.STX(c.dram, c.MAR, c.MBR, c.IXs[params_42[1]], params_42[2], c.MFR);
