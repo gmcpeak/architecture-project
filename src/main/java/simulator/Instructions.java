@@ -120,7 +120,7 @@ public class Instructions {
         return faultCode;
     }
 
-    public static int STX(DRAM dram, Register MAR, Register MBR, Register IX, Register registerTarget,
+    public static int STX(DRAM dram, Register MAR, Register MBR, Register IX,
                           int indirect, Register MFR) {
         // store the IX value in the MBR
         System.out.println("------------------------------");
