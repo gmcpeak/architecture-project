@@ -3,6 +3,9 @@ package simulator;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+/**
+ * The main class containing the essential data and the main method
+ */
 public class Computer {
     int wordSize;
     DRAM dram;
@@ -24,6 +27,14 @@ public class Computer {
     Instructions instructions;
     Parser parser;
 
+
+    /**
+     * Creates object and sets proper conditions for architecture
+     * @param wordSize the length of a word in our word-addressable memory
+     * @param dramSize the total size, of our memory
+     * @param numGPR the number of general-purpose registers in our simulation
+     * @param numIX the number of index registers in our simulation
+     */
     public Computer(int wordSize, int dramSize, int numGPR, int numIX) {
         this.wordSize = wordSize;
         this.dram = new DRAM(wordSize, dramSize);
@@ -62,6 +73,10 @@ public class Computer {
         this.ui.run_ui(this);
     }
 
+    /**
+     * When a program file is being executed, this function is used to load and execute each instruciton of the program
+     * @return true if halt code was not reached
+     */
     public boolean step() {
         if (parser.parse_and_call(Helper.arrToString(this.IR.getRegisterValue()), this)) {
             int curr_pc_val = Helper.arrToInt(this.PC.getRegisterValue());
@@ -74,10 +89,17 @@ public class Computer {
         return false;
     }
 
+    /**
+     * Executes all the instructions of a loaded program one right after the other without stopping
+     */
     public void run() {
         while (step());
     }
 
+    /**
+     * Where the simulation begins
+     * @param args
+     */
     public static void main(String[] args) {
         Computer cpu = new Computer(16, 2048, 4, 3+1);
     }
