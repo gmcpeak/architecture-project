@@ -20,6 +20,8 @@ public class Computer {
 
     // UI
     UI ui;
+    Instructions instructions;
+    Parser parser;
 
     public Computer(int wordSize, int dramSize, int numGPR, int numIX) {
         this.wordSize = wordSize;
@@ -51,11 +53,14 @@ public class Computer {
             }
         }
 
+        this.parser = new Parser();
+
         // Start UI
         System.out.println("Starting GUI");
         this.ui = new UI();
-        UI.run_ui();
+        this.ui.run_ui(this);
     }
+
     public static void main(String[] args) {
         Computer cpu = new Computer(16, 2048, 4, 3+1);
     }

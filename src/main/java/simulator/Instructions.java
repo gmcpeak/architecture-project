@@ -120,7 +120,7 @@ public class Instructions {
         return faultCode;
     }
 
-    public static int STX(DRAM dram, Register MAR, Register MBR, Register IX, Register registerTarget,
+    public static int STX(DRAM dram, Register MAR, Register MBR, Register IX,
                           int indirect, Register MFR) {
         // store the IX value in the MBR
         System.out.println("------------------------------");
@@ -151,6 +151,11 @@ public class Instructions {
 //        registerTarget.setRegisterValue(Arrays.toString(MBR.getRegisterValue().toString()));
 
         return faultCode;
+    }
+
+    public static int write_to_register(String val, Register r) {
+        r.setRegisterValue(Helper.intToBinArray(Helper.binaryToInt(val), 16));
+        return 0;
     }
 
 }

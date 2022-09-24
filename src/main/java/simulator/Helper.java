@@ -20,13 +20,23 @@ public class Helper {
     public static int binaryToInt(String str) {
         return Integer.parseInt(str, 2);
     }
-    public static int arrToInt(int[] array) {
+
+    public static String arrToString(int[] array) {
         String binString = Arrays.toString(array)
                 .replace("[", "")
                 .replace("]", "")
                 .replace(",", "")
                 .replace(" ", "");
-        return binaryToInt(binString);
+        return binString;
+    }
+
+    public static String arrToDisplayString(int[] array) {
+        String str = arrToString(array);
+        String disp = str.substring(0, 4)+" "+str.substring(4, 8)+" "+str.substring(8, 12)+" "+str.substring(12, 16);
+        return disp;
+    }
+    public static int arrToInt(int[] array) {
+        return binaryToInt(arrToString(array));
     }
 
     public static int[] intToBinArray(int num, int wordLength) {
