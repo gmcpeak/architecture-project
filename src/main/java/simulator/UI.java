@@ -17,11 +17,11 @@ public class UI {
     static ArrayList <JLabel> GPRs;
     static ArrayList <JLabel> idxRs;
     static JLabel program_counter;
+    static JLabel instruction_register;
     static JLabel mar;
     static JLabel value_at_mar;
     private static void execute_binary_code(String input, Computer c) {
         c.parser.parse_and_call(input, c);
-        refresh(c);
     }
 
     public static void refresh(Computer c) {
@@ -32,6 +32,7 @@ public class UI {
             }
         }
         program_counter.setText("PC: "+Helper.arrToDisplayString(c.PC.data));
+        instruction_register.setText("IR: "+Helper.arrToDisplayString(c.IR.data));
         mar.setText("MAR: "+Helper.arrToDisplayString(c.MAR.data));
         value_at_mar.setText("Value: "+Helper.arrToDisplayString(c.dram.fetchBinaryValue(Helper.arrToInt(c.MAR.data))));
     }
@@ -114,12 +115,15 @@ public class UI {
         program_area.setLayout(new GridLayout(1, 2));
         JPanel run_area = new JPanel();
         program_counter = new JLabel("PC: 0000 0000 0000");
+        instruction_register = new JLabel("IR: 0000 0000 0000 0000");
         run_area.add(program_counter);
+        run_area.add(instruction_register);
         JButton load_program_button = new JButton("IPL (Load program.txt)");
         load_program_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Button pushed");
+                FileReader.fileReader(c.dram, c.PC, c.IR);
+                refresh(c);
             }
         });
         run_area.add(load_program_button);
@@ -127,7 +131,7 @@ public class UI {
         step_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Button pushed");
+                c.step();
             }
         });
         run_area.add(step_button);
@@ -135,7 +139,7 @@ public class UI {
         run_program_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Button pushed");
+                c.run();
             }
         });
         run_area.add(run_program_button);

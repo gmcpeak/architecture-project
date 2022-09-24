@@ -111,7 +111,7 @@ public class DRAM {
         }
     }
 
-    private int fetchAddress(int EA) {
+    int fetchAddress(int EA) {
         return Helper.arrToInt(Arrays.copyOfRange(this.data, EA, EA+wordSize));
     }
 

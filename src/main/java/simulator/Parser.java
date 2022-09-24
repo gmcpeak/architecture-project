@@ -13,9 +13,12 @@ public class Parser {
     }
 
     public boolean parse_and_call(String in, Computer c) {
+        System.out.println(in);
         if (in.length() != 16) {return false;}
         String opcode = in.substring(0, 6);
         switch (opcode) {
+            case "000000":
+                return false;
             case "000001": // Octal 01, load register from memory
                 int[] params_01 = parse_for_load_store(in);
                 c.MAR.setRegisterValue(Helper.intToBinArray(params_01[3], 16));

@@ -15,6 +15,7 @@ public class Register {
 
     public void setRegisterValue(int[] val) {
         if (this.data.length == val.length) {
+
             this.data = val.clone();
         } else {
             int[] newArr = new int[this.data.length];

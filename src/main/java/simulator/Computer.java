@@ -1,5 +1,6 @@
 package simulator;
 
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class Computer {
@@ -59,6 +60,22 @@ public class Computer {
         System.out.println("Starting GUI");
         this.ui = new UI();
         this.ui.run_ui(this);
+    }
+
+    public boolean step() {
+        if (parser.parse_and_call(Helper.arrToString(this.IR.getRegisterValue()), this)) {
+            int curr_pc_val = Helper.arrToInt(this.PC.getRegisterValue());
+            int new_pc_val = curr_pc_val + 16;
+            this.PC.setRegisterValue(Helper.intToBinArray(new_pc_val, 12));
+            this.IR.setRegisterValue(this.dram.fetchBinaryValue(new_pc_val));
+            this.ui.refresh(this);
+            return true;
+        }
+        return false;
+    }
+
+    public void run() {
+        while (step());
     }
 
     public static void main(String[] args) {
