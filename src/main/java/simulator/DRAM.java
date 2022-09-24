@@ -99,7 +99,19 @@ public class DRAM {
         }
     }
 
-    int fetchAddress(int EA) {
+    public void memset(int[] value, int start) {
+        for (int i = start; i < start + value.length; i++) {
+            this.data[i] = value[i-start];
+        }
+    }
+
+    public void memNuke() {
+        for (int i = 6; i < this.size; i++) {
+            this.data[i] = 0;
+        }
+    }
+
+    private int fetchAddress(int EA) {
         return Helper.arrToInt(Arrays.copyOfRange(this.data, EA, EA+wordSize));
     }
 
