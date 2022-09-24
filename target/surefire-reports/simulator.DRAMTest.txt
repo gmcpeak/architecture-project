@@ -1,12 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: simulator.DRAMTest
 -------------------------------------------------------------------------------
-Tests run: 11, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.011 s <<< FAILURE! - in simulator.DRAMTest
-storeNoIndex  Time elapsed: 0.001 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: array contents differ at index [0], expected: <1> but was: <0>
-	at simulator.DRAMTest.storeNoIndex(DRAMTest.java:350)
-
-storeIndex  Time elapsed: 0.001 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: array contents differ at index [0], expected: <1> but was: <0>
-	at simulator.DRAMTest.storeIndex(DRAMTest.java:381)
-
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s - in simulator.DRAMTest

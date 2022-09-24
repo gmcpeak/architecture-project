@@ -322,7 +322,7 @@ class DRAMTest {
      */
 
     @org.junit.jupiter.api.Test
-    void storeNoIndex() {
+     void storeNoIndex() {
         DRAM dram = new DRAM(wordSize, dramSize);
         Register IX = new Register(wordSize);
         Register testReg = new Register(wordSize);
@@ -334,6 +334,7 @@ class DRAMTest {
         MAR.setRegisterValue(Helper.intToBinArray(16, wordSize));
 
         // value to store
+        testReg.setRegisterValue(Helper.intToBinArray((int)Math.pow(2,16)-1, wordSize));
         MBR.setRegisterValue(Helper.intToBinArray((int)Math.pow(2,16)-1, wordSize));
 
         Instructions.STR(dram, MAR, MBR, null, testReg, 0, MFR);
@@ -361,8 +362,8 @@ class DRAMTest {
 
         // address 16
         MAR.setRegisterValue(Helper.intToBinArray(16, wordSize));
-
         // value to store
+            testReg.setRegisterValue(Helper.intToBinArray((int)Math.pow(2,16)-1, wordSize));
         MBR.setRegisterValue(Helper.intToBinArray((int)Math.pow(2,16)-1, wordSize));
 
         IX.setRegisterValue(Helper.intToBinArray(16, wordSize));
@@ -383,6 +384,6 @@ class DRAMTest {
 
 
 //    public static void main(String[] args) {
-//        storeIndex();
+//        storeNoIndex();
 //    }
 }
