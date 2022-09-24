@@ -3,6 +3,12 @@ package simulator;
 public class Parser {
     public Parser(){}
 
+    /**
+     * Load and store are very similar commands, so we will split and interpret the binary strings for all of those
+     * instructions in here
+     * @param in String to be split and interpreted as integers
+     * @return separated string
+     */
     public int[] parse_for_load_store(String in) {
         int[] separated = new int[4];
         separated[0] = Helper.binaryToInt(in.substring(6, 8));
@@ -12,6 +18,12 @@ public class Parser {
         return separated;
     }
 
+    /**
+     * Decodes the opcode and calls the correect instruction
+     * @param in Binary string
+     * @param c pointer to computer
+     * @return True if not halt code
+     */
     public boolean parse_and_call(String in, Computer c) {
         System.out.println(in);
         if (in.length() != 16) {return false;}

@@ -7,6 +7,9 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+/**
+ * All of the GUI components are defined in this file
+ */
 public class UI {
     JFrame base_frame;
     JPanel register_area;
@@ -20,10 +23,21 @@ public class UI {
     static JLabel instruction_register;
     static JLabel mar;
     static JLabel value_at_mar;
+
+    /**
+     * When the user executed a binary string in the input field, this is the function that is used to make that happen
+     * @param input a binary code to be interpreted for execution
+     * @param c the internal components of the simulated machine
+     */
     private static void execute_binary_code(String input, Computer c) {
         c.parser.parse_and_call(input, c);
     }
 
+    /**
+     * After executing a command, update the displayed values of registers in the GUI so that they reflect the changes
+     * made internally
+     * @param c the computer object pointing to the registers, dram, etc
+     */
     public static void refresh(Computer c) {
         for (int i = 0; i < 4; i++) {
             GPRs.get(i).setText("R"+String.valueOf(i)+ ": "+Helper.arrToDisplayString(c.GPRs[i].data));
@@ -37,6 +51,10 @@ public class UI {
         value_at_mar.setText("Value: "+Helper.arrToDisplayString(c.dram.fetchBinaryValue(Helper.arrToInt(c.MAR.data) * 16)));
     }
 
+    /**
+     * Initialize GUI and organize its components
+     * @param c Pointer to internal simulated computer
+     */
     private void createAndShowGUI(Computer c) {
         base_frame = new JFrame();
         base_frame.setLayout(new GridLayout(3, 1));
@@ -155,6 +173,10 @@ public class UI {
 
     }
 
+    /**
+     * Creates a swing window for the GUI
+     * @param c
+     */
     public void run_ui(Computer c) {
         //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
