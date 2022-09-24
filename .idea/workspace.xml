@@ -6,12 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="d602c491-6be4-4115-90c1-2ffcc31615e3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Computer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Computer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/DRAM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/DRAM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/FileReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/program.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/program.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-simulator.DRAMTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-simulator.DRAMTest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-simulator.RegisterTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-simulator.RegisterTest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-simulator.UITest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-simulator.UITest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/simulator.DRAMTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/simulator.DRAMTest.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/simulator.UITest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/simulator.UITest.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +65,7 @@
     "project.structure.side.proportion": "0.0"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.DRAMTest">
+  <component name="RunManager">
     <configuration name="DRAMTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="simulator.DRAMTest" />
       <module name="architecture-project" />
@@ -175,20 +179,24 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java</url>
-          <line>93</line>
-          <option name="timeStamp" value="20" />
+          <url>file://$PROJECT_DIR$/src/main/java/simulator/Instructions.java</url>
+          <line>16</line>
+          <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java</url>
-          <line>370</line>
-          <option name="timeStamp" value="25" />
+          <url>file://$PROJECT_DIR$/src/main/java/simulator/DRAM.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java</url>
-          <line>386</line>
-          <option name="timeStamp" value="31" />
+          <url>file://$PROJECT_DIR$/src/main/java/simulator/Computer.java</url>
+          <line>65</line>
+          <option name="timeStamp" value="39" />
         </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="org.opentest4j.AssertionFailedError" package="org.opentest4j" />
+          <option name="timeStamp" value="38" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

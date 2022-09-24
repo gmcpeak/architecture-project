@@ -13,7 +13,7 @@ public class FileReader {
 
             dram.memNuke(); // memset all to 0
 
-            int index = 1024;
+            int index = 16;
 
 
             while (reader.hasNextLine()) {
@@ -26,11 +26,9 @@ public class FileReader {
             e.printStackTrace();
         }
 
-        dram.memset(Helper.intToBinArray(5,16), 16);
-
         System.out.println("Program Loaded into Memory!");
-        PC.setRegisterValue(Helper.intToBinArray(1024, PC.size));
-        IR.setRegisterValue(Helper.intToBinArray(dram.fetchAddress(1024), IR.size));
+        PC.setRegisterValue(Helper.intToBinArray(32, PC.size));
+        IR.setRegisterValue(Helper.intToBinArray(dram.fetchAddress(16), IR.size));
     }
 
 //    public static void main(String args[]) {

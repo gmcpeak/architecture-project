@@ -34,7 +34,7 @@ public class UI {
         program_counter.setText("PC: "+Helper.arrToDisplayString(c.PC.data));
         instruction_register.setText("IR: "+Helper.arrToDisplayString(c.IR.data));
         mar.setText("MAR: "+Helper.arrToDisplayString(c.MAR.data));
-        value_at_mar.setText("Value: "+Helper.arrToDisplayString(c.dram.fetchBinaryValue(Helper.arrToInt(c.MAR.data))));
+        value_at_mar.setText("Value: "+Helper.arrToDisplayString(c.dram.fetchBinaryValue(Helper.arrToInt(c.MAR.data) * 16)));
     }
 
     private void createAndShowGUI(Computer c) {

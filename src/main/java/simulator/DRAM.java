@@ -80,20 +80,20 @@ public class DRAM {
     private int calculateEffectiveAddress(int address, Register IX, int I) {
         if (I == 0) {
             if (IX == null) {
-                return address;
+                return address * this.wordSize;
             }
             else {
                 int IXValue = Helper.arrToInt(IX.getRegisterValue());
-                return IXValue + address;
+                return (IXValue + address) * this.wordSize;
             }
         }
         else {
             if (IX == null) {
-                return fetchAddress(address);
+                return fetchAddress(address*this.wordSize) *  this.wordSize;
             }
             else {
                 int IXValue = Helper.arrToInt(IX.getRegisterValue());
-                return   fetchAddress(address) + fetchAddress(IXValue)  ;
+                return   (fetchAddress(address*this.wordSize) + fetchAddress(IXValue*this.wordSize)) * this.wordSize  ;
 
             }
         }
