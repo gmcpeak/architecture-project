@@ -153,5 +153,10 @@ public class Instructions {
         return faultCode;
     }
 
+    public static int write_to_register(String val, Register r) {
+        r.setRegisterValue(Helper.intToBinArray(Helper.binaryToInt(val), 16));
+        return 0;
+    }
+
 }
 
