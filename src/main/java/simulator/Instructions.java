@@ -6,6 +6,18 @@ import java.util.Arrays;
 public class Instructions {
     public static int LDR(DRAM dram, Register MAR, Register MBR, Register IX, Register registerTarget,
                           int indirect, Register MFR) {
+        /*
+        dram - pointer to dram object
+        MAR - mar register that holds address
+        MBR - MBR register
+        IX- IX register to be used
+        registerTarget - register to be loaded/stored to/from
+        indirect - indirect bit
+        MFR - machine fault register
+
+        Function to execute the LDR instruction. Calls dram load and sets machine fault register MFR.
+        Sets the target register value.
+         */
         System.out.println("------------------------------");
         System.out.println("LDR CALLED");
         System.out.println(String.format("MBR VALUE %s", Arrays.toString(MBR.getRegisterValue())));
@@ -36,6 +48,18 @@ public class Instructions {
 
     public static int LDA(DRAM dram, Register MAR, Register MBR, Register IX, Register registerTarget,
                           int indirect, Register MFR) {
+        /*
+        dram - pointer to dram object
+        MAR - mar register that holds address
+        MBR - MBR register
+        IX- IX register to be used
+        registerTarget - register to be loaded/stored to/from
+        indirect - indirect bit
+        MFR - machine fault register
+
+        Function to execute the LDA instruction. Calls dram load and sets machine fault register MFR.
+        Sets the target register value.
+         */
         System.out.println("------------------------------");
         System.out.println("LDA CALLED");
         System.out.println(String.format("MBR VALUE %s", Arrays.toString(MBR.getRegisterValue())));
@@ -64,6 +88,18 @@ public class Instructions {
     }
 
     public static int LDX(DRAM dram, Register MAR, Register MBR, Register IX, int indirect, Register MFR) {
+        /*
+        dram - pointer to dram object
+        MAR - mar register that holds address
+        MBR - MBR register
+        IX- IX register to be used
+        registerTarget - register to be loaded/stored to/from
+        indirect - indirect bit
+        MFR - machine fault register
+
+        Function to execute the LDX instruction. Calls dram load and sets machine fault register MFR.
+        Sets the target register value.
+         */
         System.out.println("------------------------------");
         System.out.println("LDX CALLED");
         System.out.println(String.format("MBR VALUE %s", Arrays.toString(MBR.getRegisterValue())));
@@ -92,6 +128,18 @@ public class Instructions {
 
     public static int STR(DRAM dram, Register MAR, Register MBR, Register IX, Register registerTarget,
                           int indirect, Register MFR) {
+        /*
+        dram - pointer to dram object
+        MAR - mar register that holds address
+        MBR - MBR register
+        IX- IX register to be used
+        registerTarget - register to be loaded/stored to/from
+        indirect - indirect bit
+        MFR - machine fault register
+
+        Function to execute the STR instruction. Calls dram load and sets machine fault register MFR.
+        Sets the target register value.
+         */
         System.out.println("------------------------------");
         MBR.setRegisterValue(registerTarget.getRegisterValue());
         System.out.println("STR INSTRUCTION CALLED");
@@ -122,6 +170,18 @@ public class Instructions {
 
     public static int STX(DRAM dram, Register MAR, Register MBR, Register IX,
                           int indirect, Register MFR) {
+        /*
+        dram - pointer to dram object
+        MAR - mar register that holds address
+        MBR - MBR register
+        IX- IX register to be used
+        registerTarget - register to be loaded/stored to/from
+        indirect - indirect bit
+        MFR - machine fault register
+
+        Function to execute the STX instruction. Calls dram load and sets machine fault register MFR.
+        Sets the target register value.
+         */
         // store the IX value in the MBR
         System.out.println("------------------------------");
 

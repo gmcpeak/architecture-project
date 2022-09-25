@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d602c491-6be4-4115-90c1-2ffcc31615e3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/FileReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/program.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/program.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/DRAM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/DRAM.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,7 +170,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/simulator/DRAM.java</url>
-          <line>25</line>
+          <line>41</line>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
