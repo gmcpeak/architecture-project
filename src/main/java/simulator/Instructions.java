@@ -218,5 +218,23 @@ public class Instructions {
         return 0;
     }
 
+    public static void IN(Register r, Register device) {
+        r.setRegisterValue(device.getRegisterValue());
+    }
+
+    public static void OUT(Register r, Register device) {
+        device.setRegisterValue(r.getRegisterValue());
+    }
+
+    public static void CHK(Register r, Register device) {
+        int val = Helper.arrToInt(device.getRegisterValue());
+
+        if (val > 0) {
+            r.setRegisterValue(Helper.intToBinArray(1, 16));
+        } else {
+            r.setRegisterValue(Helper.intToBinArray(0, 16));
+        }
+    }
+
 }
 
