@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d602c491-6be4-4115-90c1-2ffcc31615e3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/simulator/Cache.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/simulator/DRAM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/DRAM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/FileReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,16 +50,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
-}]]></component>
-  <component name="RunManager">
+}</component>
+  <component name="RunManager" selected="Application.DRAMTest">
     <configuration name="DRAMTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="simulator.DRAMTest" />
       <module name="architecture-project" />
@@ -135,10 +139,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.DRAMTest" />
         <item itemvalue="JUnit.DRAMTest" />
         <item itemvalue="JUnit.DRAMTest.storeIndex" />
         <item itemvalue="JUnit.DRAMTest.storeNoIndex" />
-        <item itemvalue="Application.DRAMTest" />
         <item itemvalue="JUnit.DRAMTest.loadTestNoIndexNoIndirect" />
       </list>
     </recent_temporary>
@@ -169,14 +173,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/simulator/DRAM.java</url>
-          <line>41</line>
-          <option name="timeStamp" value="36" />
+          <url>file://$PROJECT_DIR$/src/main/java/simulator/UI.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="41" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/simulator/UI.java</url>
-          <line>36</line>
-          <option name="timeStamp" value="41" />
+          <url>file://$PROJECT_DIR$/src/main/java/simulator/Cache.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="47" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="org.opentest4j.AssertionFailedError" package="org.opentest4j" />

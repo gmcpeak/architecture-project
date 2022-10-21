@@ -12,13 +12,17 @@ public class DRAM {
     int data[];
     int size;
 
+    Cache cache;
 
     public DRAM(int wordSize, int numberOfWords) {
         this.wordSize = wordSize;
         this.numberOfWords = numberOfWords;
         this.size = wordSize * numberOfWords;
         this.data = new int[this.size];
+
+        this.cache = new Cache(16, 16, 4);
     }
+
 
     public int load(Register MAR, Register MBR, Register IX, int I, String type) {
         /*
@@ -41,6 +45,16 @@ public class DRAM {
         address = Helper.arrToInt(MAR.getRegisterValue());
         EA = this.calculateEffectiveAddress(address, IX, I);
 
+        boolean cache_hit = false;
+        // BEGIN CACHING
+        int[] cache_result = this.cache.search(EA);
+
+        if (cache_result != null) {
+            MBR.setRegisterValue(cache_result);
+            cache_hit = true;
+        }
+        // END CACHING
+
         // validate address if fault occurs return with fault code
         returnCode = this.checkAddress(EA);
         if (returnCode != 0) {
@@ -60,6 +74,10 @@ public class DRAM {
         } else {
             // machine fault 4
             returnCode = 4;
+        }
+
+        if (!cache_hit){
+            this.cache.placeBlock(this, EA);
         }
         // default no machine fault
         return returnCode;
@@ -86,6 +104,9 @@ public class DRAM {
         address = Helper.arrToInt(MAR.getRegisterValue());
         EA = this.calculateEffectiveAddress(address, IX, I);
 
+
+
+
         System.out.println(String.format("Computed EA: %d", EA));
 
         // validate address if fault occurs return with fault code
@@ -99,6 +120,11 @@ public class DRAM {
                 EA = Helper.arrToInt(MAR.getRegisterValue());
             }
             // copy data
+
+            //CACHING
+            this.cache.placeBlock(this, EA);
+            // END CACHING
+
             int[] regData = MBR.getRegisterValue();
             for (int i = 0; i < this.wordSize; i++) {
                 this.data[i+EA] = regData[i];

@@ -15,7 +15,7 @@ class DRAMTest {
     BEGIN LDR TESTING
      */
     @org.junit.jupiter.api.Test
-    void loadTestNoIndexNoIndirect() {
+     void loadTestNoIndexNoIndirect() {
         DRAM dram = new DRAM(wordSize, dramSize);
         Register IX = new Register(wordSize);
         Register testReg = new Register(wordSize);
@@ -387,6 +387,6 @@ class DRAMTest {
 
 
 //    public static void main(String[] args) {
-//        LDAIndirectIndex();
+//        loadTestNoIndexNoIndirect();
 //    }
 }

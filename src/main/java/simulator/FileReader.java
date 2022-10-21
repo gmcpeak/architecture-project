@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class FileReader {
     public static void fileReader(DRAM dram, Register PC, Register IR){
-        String fn = "src/main/java/simulator/program.txt";
+        String fn = "./program.txt";
 
         try {
             File f = new File(fn);
