@@ -36,6 +36,7 @@ public class Cache {
 
                 offset = offset + mem.wordSize;
             }
+            this.cacheLines[line].valid = 1;
             System.out.println("BLOCKS PLACED");
             String s = String.format("Line used=%d, Address=%d, Offset %d", line, addr, offset);
             System.out.println(s);
@@ -44,15 +45,18 @@ public class Cache {
         public int[] search(int addr) {
             for (int i = 0; i < this.cacheLines.length; i++) {
                 int max_offset_addr = this.cacheLines[i].tag + 48;
-                if (this.cacheLines[i].tag == addr || (max_offset_addr > addr && addr <= max_offset_addr)) {
-                    int first_addr = this.cacheLines[i].first_block_address;
-                    int offset = (addr - first_addr) % this.num_blocks;
+                if (this.cacheLines[i].valid == 1){
+                    if (this.cacheLines[i].tag == addr || ( addr > this.cacheLines[i].tag && addr <= max_offset_addr)) {
+                        int first_addr = this.cacheLines[i].first_block_address;
+                        int offset = (addr - first_addr) % this.num_blocks;
 
-                    System.out.println("CACHE HIT :P");
-                    String s = String.format("Line used=%d, Address=%d, Offset %d", i, addr, offset);
-                    System.out.println(s);
-                    return this.cacheLines[i].cache_blocks[offset].data;
+                        System.out.println("CACHE HIT :P");
+                        String s = String.format("Line used=%d, Address=%d, Offset %d", i, addr, offset);
+                        System.out.println(s);
+                        return this.cacheLines[i].cache_blocks[offset].data;
+                    }
                 }
+
             }
             //else its a miss :(
             System.out.println("CACHE MISS :(");
@@ -67,6 +71,8 @@ class CacheLine{
     int tag;
     int first_block_address;
 
+    int valid;
+
     public CacheLine(int num_blocks, int block_size) {
         this.num_blocks = num_blocks;
         this.cache_blocks = new CacheBlock[num_blocks];
@@ -74,10 +80,15 @@ class CacheLine{
         for (int i = 0; i < num_blocks; i++) {
             this.cache_blocks[i] = new CacheBlock(block_size);
         }
+        this.valid = 0;
     }
 
     public void setTag(int tag) {
         this.tag = tag;
+    }
+
+    public void setValid(int valid) {
+        this.valid = valid;
     }
 
     public void setFirst_block_address(int addr){
