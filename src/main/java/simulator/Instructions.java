@@ -293,6 +293,13 @@ public class Instructions {
         return 0;
     }
 
+    public static int JZ(Register pc, Register r, int address) {
+        if (Helper.arrToInt(r.getRegisterValue()) == 0) {
+            pc.setRegisterValue(Helper.intToBinArray(address, pc.getRegisterValue().length));
+        }
+        return 0;
+    }
+
     /**
      * Multiply two registers together either R0 and R2, or R0 and itself or R2 and itself
      * Output is an integer represented over the space of two words
@@ -346,7 +353,7 @@ public class Instructions {
         int quotient = dividend / divisor;
         int remainder = dividend % divisor;
         registers[rx_id].setRegisterValue(Helper.intToBinArray(quotient, registers[rx_id].size));
-        registers[ry_id].setRegisterValue(Helper.intToBinArray(remainder, registers[ry_id].size));
+        registers[rx_id+1].setRegisterValue(Helper.intToBinArray(remainder, registers[rx_id+1].size));
         return 0;
     }
 
@@ -381,32 +388,54 @@ public class Instructions {
         return 0;
     }
 
-    public static int SRC(Register CC, Register register, int count, int lr, int al) {
+    public static int SRC(Register CC, Register register, int al, int lr, int count) {
         int[] r = register.getRegisterValue();
         for (int i = 0; i < count; i++) {
-            if (lr == 1) { // left shift
-                for (int j = r.length-1; j > 0; j--) {
-                    r[j-1] = r[j];
+            int[] new_r = new int[r.length];
+            if (lr == 1) { // shift left
+                r = Arrays.copyOfRange(r, 1, r.length);
+                for (int j = 0; j < r.length; j++) {
+                    new_r[j] = r[j];
                 }
-                if (al == 1) { // logical shift
-                    r[r.length - 1] = 0;
-                }
+                new_r[new_r.length-1] = 0;
             } else { // right shift
-                for (int j = 1; j < r.length; j++) {
-                    r[j] = r[j-1];
+                r = Arrays.copyOfRange(r, 0, r.length-1);
+                for (int j = 0; j < r.length; j++) {
+                    new_r[j+1] = r[j];
                 }
-                if (al == 1) { // logical shift
-                    r[0] = 0;
+                if (al == 0) { // arithmetic shift
+                    new_r[0] = new_r[1];
+                } else { // logical shift
+                    new_r[0] = 0;
                 }
             }
+            r = new_r;
         }
         register.setRegisterValue(r);
         return 0;
     }
 
-    public static int RRC(Register r, int count, int lr, int al) {
+    public static int RRC(Register register, int al, int lr, int count) {
+        int[] r = register.getRegisterValue();
         for (int i = 0; i < count; i++) {
+            int[] new_r = new int[r.length];
+            if (lr == 1) { // rotate left
+                int[] r2 = Arrays.copyOfRange(r, 1, r.length);
+                for (int j = 0; j < r2.length; j++) {
+                    new_r[j] = r2[j];
+                }
+                new_r[new_r.length-1] = r[0];
+            } else { // rotate right
+                int[] r2 = Arrays.copyOfRange(r, 0, r.length-1);
+                for (int j = 0; j < r.length-1; j++) {
+                    new_r[j+1] = r2[j];
+                }
+                new_r[0] = r[r.length-1];
+            }
+            r = new_r;
         }
+        register.setRegisterValue(r);
+        return 0;
     }
 
     public static int NOT(Register rx) {

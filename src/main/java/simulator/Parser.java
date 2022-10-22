@@ -36,6 +36,23 @@ public class Parser {
         separated[1] = Helper.binaryToInt(in.substring(8, 10));
         return separated;
     }
+
+    public int[] parse_for_jumps(String in){
+        int[] separated = new int[3];
+        separated[0] = Helper.binaryToInt(in.substring(6, 8));
+        separated[1] = Helper.binaryToInt(in.substring(8, 11));
+        separated[2] = Helper.binaryToInt(in.substring(11, 16));
+        return separated;
+    }
+
+    public int[] parse_for_shift_rotate(String in) {
+        int[] separated = new int[4];
+        separated[0] = Helper.binaryToInt(in.substring(6, 8));
+        separated[1] = Helper.binaryToInt(in.substring(8, 9));
+        separated[2] = Helper.binaryToInt(in.substring(9, 10));
+        separated[3] = Helper.binaryToInt(in.substring(12, 16));
+        return separated;
+    }
     
     public int[] parse_for_io(String in) {
         int[] separated = new int[2];
@@ -73,16 +90,6 @@ public class Parser {
                 c.MAR.setRegisterValue(Helper.intToBinArray(params_03[3], 16));
                 Instructions.LDA(c.dram, c.MAR, c.MBR, c.IXs[params_03[1]], c.GPRs[params_03[0]], params_03[2], c.MFR);
                 break;
-            case "101001": // Octal 41, load index register from memory
-                int[] params_41 = parse_for_load_store(in);
-                c.MAR.setRegisterValue(Helper.intToBinArray(params_41[3], 16));
-                Instructions.LDX(c.dram, c.MAR, c.MBR, c.IXs[params_41[1]], params_41[2], c.MFR);
-                break;
-            case "101010": // Octal 42, store index register to memory
-                int[] params_42 = parse_for_load_store(in);
-                c.MAR.setRegisterValue(Helper.intToBinArray(params_42[3], 16));
-                Instructions.STX(c.dram, c.MAR, c.MBR, c.IXs[params_42[1]], params_42[2], c.MFR);
-                break;
             case "000100": // Octal 04, add memory to register
                 int[] params_04 = parse_for_arithmetic_op(in);
                 c.MAR.setRegisterValue(Helper.intToBinArray(params_04[3], 16));
@@ -102,6 +109,12 @@ public class Parser {
             case "000111": // Octal 07, Subtract immediate from register
                 int[] params_07 = parse_for_arithmetic_op(in);
                 Instructions.SIR(c.GPRs[params_07[0]], params_07[3], c.CC);
+                break;
+            case "001000": // Octal 10, Jump if zero
+                int[] params_08 = parse_for_jumps(in);
+                Instructions.JZ(c.PC, c.GPRs[params_08[0]], params_08[2]);
+                break;
+            case "001001": // Octal 11, Jump if not equal
                 break;
             case "010000": // Octal 20, multiply register by register
                 int[] params_20 = parse_for_register_register_op(in);
@@ -126,6 +139,24 @@ public class Parser {
             case "010101": // Octal 25, NOT two registers together
                 int[] params_25 = parse_for_register_register_op(in);
                 Instructions.NOT(c.GPRs[params_25[0]]);
+                break;
+            case "011001": // Octal 31, SRC (shift register by count)
+                int[] params_31 = parse_for_shift_rotate(in);
+                Instructions.SRC(c.CC, c.GPRs[params_31[0]], params_31[1], params_31[2], params_31[3]);
+                break;
+            case "011010": // Octal 32, RRC (rotate register by count)
+                int[] params_32 = parse_for_shift_rotate(in);
+                Instructions.RRC(c.GPRs[params_32[0]], params_32[1], params_32[2], params_32[3]);
+                break;
+            case "101001": // Octal 41, load index register from memory
+                int[] params_41 = parse_for_load_store(in);
+                c.MAR.setRegisterValue(Helper.intToBinArray(params_41[3], 16));
+                Instructions.LDX(c.dram, c.MAR, c.MBR, c.IXs[params_41[1]], params_41[2], c.MFR);
+                break;
+            case "101010": // Octal 42, store index register to memory
+                int[] params_42 = parse_for_load_store(in);
+                c.MAR.setRegisterValue(Helper.intToBinArray(params_42[3], 16));
+                Instructions.STX(c.dram, c.MAR, c.MBR, c.IXs[params_42[1]], params_42[2], c.MFR);
                 break;
             case "110001": // 61, IN
                 int[] params_61 = parse_for_io(in);
