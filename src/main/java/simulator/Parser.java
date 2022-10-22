@@ -1,5 +1,7 @@
 package simulator;
 
+import java.util.Arrays;
+
 public class Parser {
     public Parser(){}
 
@@ -159,14 +161,19 @@ public class Parser {
                 Instructions.STX(c.dram, c.MAR, c.MBR, c.IXs[params_42[1]], params_42[2], c.MFR);
                 break;
             case "110001": // 61, IN
+                System.out.println("IN");
                 int[] params_61 = parse_for_io(in);
+                System.out.println(Arrays.toString(params_61));
                 Instructions.IN(c.GPRs[params_61[0]], c.deviceBuffers[params_61[1]]);
+                break;
             case "110010": // 62, OUT
                 int[] params_62 = parse_for_io(in);
                 Instructions.OUT(c.GPRs[params_62[0]], c.deviceBuffers[params_62[1]]);
+                break;
             case "110011": // 63, CHK
                 int[] params_63 = parse_for_io(in);
                 Instructions.CHK(c.GPRs[params_63[0]], c.deviceBuffers[params_63[1]]);
+                break;
             default:
                 System.out.println("ERROR: Invalid opcode");
         }

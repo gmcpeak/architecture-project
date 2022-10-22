@@ -17,6 +17,11 @@ public class UI {
     JPanel idxR_area;
     JPanel instruction_area;
     JPanel program_area;
+
+    JPanel console_area;
+    static JLabel console_printer;
+    static JTextField console_keyboard;
+
     static ArrayList <JLabel> GPRs;
     static ArrayList <JLabel> idxRs;
     static JLabel program_counter;
@@ -33,6 +38,16 @@ public class UI {
         c.parser.parse_and_call(input, c);
     }
 
+    // IN
+    private static void console_keyboard_helper(String input, Computer c) {
+        c.deviceBuffers[0].setRegisterValue(Helper.intToBinArray(Helper.binaryToInt(input), 16));
+//        String instruction = Helper.intToBinary(61, 8);
+//        instruction = "110001" + "0" + "0000" + "00001";
+        // 1100010000000000
+        // 1100100000000001
+//        System.out.println("IN found in ui");
+//        c.parser.parse_and_call(instruction, c);
+    }
     /**
      * After executing a command, update the displayed values of registers in the GUI so that they reflect the changes
      * made internally
@@ -49,6 +64,10 @@ public class UI {
         instruction_register.setText("IR: "+Helper.arrToDisplayString(c.IR.data));
         mar.setText("MAR: "+Helper.arrToDisplayString(c.MAR.data));
         value_at_mar.setText("Value: "+Helper.arrToDisplayString(c.dram.fetchBinaryValue(Helper.arrToInt(c.MAR.data) * 16)));
+
+        // consoles
+        console_printer.setText(Helper.arrToString(c.deviceBuffers[1].getRegisterValue()));
+        console_keyboard.setText("0000000000000000");
     }
 
     /**
@@ -57,7 +76,7 @@ public class UI {
      */
     private void createAndShowGUI(Computer c) {
         base_frame = new JFrame();
-        base_frame.setLayout(new GridLayout(3, 1));
+        base_frame.setLayout(new GridLayout(4, 1));
         base_frame.setSize(1200,600);
         base_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -70,6 +89,29 @@ public class UI {
         idxR_area = new JPanel();
         idxR_area.setLayout(new GridLayout(1, 3));
         register_area.add(idxR_area);
+
+
+        // Consoles
+        console_area = new JPanel();
+        console_area.setLayout(new GridLayout(1, 4));
+        console_area.add(new JLabel("Console Printer Output: "));
+        console_printer = new JLabel("0000000000000000 ");
+        console_area.add(console_printer);
+
+        console_area.add(new JLabel("Console Writer: "));
+        console_keyboard = new JTextField("0000000000000000", 16);
+        JButton write_button = new JButton("Write value");
+
+        write_button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                console_keyboard_helper(console_keyboard.getText(), c);
+                refresh(c);
+            }
+        });
+
+        console_area.add(console_keyboard);
+        console_area.add(write_button);
 
         instruction_area = new JPanel();
         instruction_area.add(new JLabel("Input field: "));
@@ -169,6 +211,7 @@ public class UI {
         memory_area.add(value_at_mar);
         program_area.add(memory_area);
         base_frame.add(program_area);
+        base_frame.add(console_area);
         base_frame.setVisible(true);
 
     }
