@@ -295,7 +295,23 @@ public class Instructions {
 
     public static int JZ(Register pc, Register r, int address) {
         if (Helper.arrToInt(r.getRegisterValue()) == 0) {
-            pc.setRegisterValue(Helper.intToBinArray(address, pc.getRegisterValue().length));
+            pc.setRegisterValue(Helper.intToBinArray(address-1, pc.getRegisterValue().length));
+            // we make it address -1 because it's going to increase by 1 at the end of the instruction anyways
+        }
+        return 0;
+    }
+
+    public static int JNE(Register pc, Register r, int address) {
+        if (Helper.arrToInt(r.getRegisterValue()) != 0) {
+            pc.setRegisterValue(Helper.intToBinArray(address-1, pc.getRegisterValue().length));
+            // we make it address -1 because it's going to increase by 1 at the end of the instruction anyways
+        }
+        return 0;
+    }
+
+    public static int JCC(Register cc, Register pc, int bit, int address) {
+        if (cc.getRegisterValue()[bit] == 1) {
+            pc.setRegisterValue(Helper.intToBinArray(address-1, pc.getRegisterValue().length));
         }
         return 0;
     }

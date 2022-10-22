@@ -47,6 +47,13 @@ public class Parser {
         return separated;
     }
 
+    public int[] parse_for_jcc(String in) {
+        int[] separated = new int[2];
+        separated[0] = Helper.binaryToInt(in.substring(6, 8));
+        separated[1] = Helper.binaryToInt(in.substring(11, 16));
+        return separated;
+    }
+
     public int[] parse_for_shift_rotate(String in) {
         int[] separated = new int[4];
         separated[0] = Helper.binaryToInt(in.substring(6, 8));
@@ -113,10 +120,16 @@ public class Parser {
                 Instructions.SIR(c.GPRs[params_07[0]], params_07[3], c.CC);
                 break;
             case "001000": // Octal 10, Jump if zero
-                int[] params_08 = parse_for_jumps(in);
-                Instructions.JZ(c.PC, c.GPRs[params_08[0]], params_08[2]);
+                int[] params_10 = parse_for_jumps(in);
+                Instructions.JZ(c.PC, c.GPRs[params_10[0]], params_10[2]);
                 break;
-            case "001001": // Octal 11, Jump if not equal
+            case "001001": // Octal 11, Jump if not zero
+                int[] params_11 = parse_for_jumps(in);
+                Instructions.JNE(c.PC, c.GPRs[params_11[0]], params_11[2]);
+                break;
+            case "001010": // Octal 12, Jump if condition code
+                int[] params_12 = parse_for_jumps(in);
+                Instructions.JCC(c.CC, c.PC, params_12[0], params_12[1]);
                 break;
             case "010000": // Octal 20, multiply register by register
                 int[] params_20 = parse_for_register_register_op(in);
