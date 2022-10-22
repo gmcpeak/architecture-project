@@ -36,6 +36,14 @@ public class Parser {
         separated[1] = Helper.binaryToInt(in.substring(8, 10));
         return separated;
     }
+    
+    public int[] parse_for_io(String in) {
+        int[] separated = new int[2];
+        separated[0] = Helper.binaryToInt(in.substring(6, 8));
+        separated[1] = Helper.binaryToInt(in.substring(11, 16));
+
+        return separated;
+    }
 
     /**
      * Decodes the opcode and calls the correect instruction
@@ -65,12 +73,12 @@ public class Parser {
                 c.MAR.setRegisterValue(Helper.intToBinArray(params_03[3], 16));
                 Instructions.LDA(c.dram, c.MAR, c.MBR, c.IXs[params_03[1]], c.GPRs[params_03[0]], params_03[2], c.MFR);
                 break;
-            case "100001": // Octal 41, load index register from memory
+            case "101001": // Octal 41, load index register from memory
                 int[] params_41 = parse_for_load_store(in);
                 c.MAR.setRegisterValue(Helper.intToBinArray(params_41[3], 16));
                 Instructions.LDX(c.dram, c.MAR, c.MBR, c.IXs[params_41[1]], params_41[2], c.MFR);
                 break;
-            case "100010": // Octal 42, store index register to memory
+            case "101010": // Octal 42, store index register to memory
                 int[] params_42 = parse_for_load_store(in);
                 c.MAR.setRegisterValue(Helper.intToBinArray(params_42[3], 16));
                 Instructions.STX(c.dram, c.MAR, c.MBR, c.IXs[params_42[1]], params_42[2], c.MFR);
@@ -119,6 +127,15 @@ public class Parser {
                 int[] params_25 = parse_for_register_register_op(in);
                 Instructions.NOT(c.GPRs[params_25[0]]);
                 break;
+            case "110001": // 61, IN
+                int[] params_61 = parse_for_io(in);
+                Instructions.IN(c.GPRs[params_61[0]], c.deviceBuffers[params_61[1]]);
+            case "110010": // 62, OUT
+                int[] params_62 = parse_for_io(in);
+                Instructions.OUT(c.GPRs[params_62[0]], c.deviceBuffers[params_62[1]]);
+            case "110011": // 63, CHK
+                int[] params_63 = parse_for_io(in);
+                Instructions.CHK(c.GPRs[params_63[0]], c.deviceBuffers[params_63[1]]);
             default:
                 System.out.println("ERROR: Invalid opcode");
         }

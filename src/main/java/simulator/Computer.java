@@ -22,6 +22,7 @@ public class Computer {
     Register MAR;
     Register MFR;
 
+    Register[] deviceBuffers;
     // UI
     UI ui;
     Instructions instructions;
@@ -46,6 +47,12 @@ public class Computer {
         this.MAR = new Register(12);
         this.MBR = new Register(16);
         this.MFR = new Register(4);
+
+        // device buffers
+//        this.printer_buffer = new Register(16);
+//        this.keyboard_buffer = new Register(16);
+        this.deviceBuffers[0] = new Register(16);
+        this.deviceBuffers[1] = new Register(16);
 
         // Initialize GPRs
         System.out.println("Initializing General Purpose Registers");
@@ -80,9 +87,10 @@ public class Computer {
     public boolean step() {
         if (parser.parse_and_call(Helper.arrToString(this.IR.getRegisterValue()), this)) {
             int curr_pc_val = Helper.arrToInt(this.PC.getRegisterValue());
+
+            this.IR.setRegisterValue(this.dram.fetchBinaryValue(curr_pc_val));
             int new_pc_val = curr_pc_val + 16;
             this.PC.setRegisterValue(Helper.intToBinArray(new_pc_val, 12));
-            this.IR.setRegisterValue(this.dram.fetchBinaryValue(new_pc_val));
             this.ui.refresh(this);
             return true;
         }

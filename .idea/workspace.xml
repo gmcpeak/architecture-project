@@ -10,6 +10,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Computer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Computer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Instructions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Instructions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Parser.java" afterDir="false" />
     </list>
@@ -29,7 +30,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="NewConsoles" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -92,15 +93,27 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="simulator" />
-      <option name="MAIN_CLASS_NAME" value="simulator.DRAMTest" />
-      <option name="METHOD_NAME" value="loadTestNoIndexNoIndirect" />
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DRAMTest.loadTestNoIndexNoIndirect" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CacheTest.load" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="architecture-project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="simulator.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="simulator" />
+      <option name="MAIN_CLASS_NAME" value="simulator.CacheTest" />
+      <option name="METHOD_NAME" value="load" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DRAMTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="architecture-project" />
       <extension name="coverage">
         <pattern>
@@ -111,7 +124,7 @@
       <option name="PACKAGE_NAME" value="simulator" />
       <option name="MAIN_CLASS_NAME" value="simulator.DRAMTest" />
       <option name="METHOD_NAME" value="loadTestNoIndexNoIndirect" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -132,22 +145,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DRAMTest.storeNoIndex" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="architecture-project" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="simulator.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="simulator" />
-      <option name="MAIN_CLASS_NAME" value="simulator.DRAMTest" />
-      <option name="METHOD_NAME" value="storeNoIndex" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="Application.Regular" />
       <item itemvalue="Application.DRAMTest" />
@@ -158,11 +155,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.CacheTest" />
+        <item itemvalue="JUnit.CacheTest.load" />
+        <item itemvalue="Application.DRAMTest" />
         <item itemvalue="JUnit.DRAMTest" />
         <item itemvalue="JUnit.DRAMTest.storeIndex" />
-        <item itemvalue="JUnit.DRAMTest.storeNoIndex" />
-        <item itemvalue="Application.DRAMTest" />
-        <item itemvalue="JUnit.DRAMTest.loadTestNoIndexNoIndirect" />
       </list>
     </recent_temporary>
   </component>
@@ -182,7 +179,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/cache" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -192,14 +201,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java</url>
-          <line>93</line>
-          <option name="timeStamp" value="20" />
+          <url>file://$PROJECT_DIR$/src/main/java/simulator/UI.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="41" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java</url>
-          <line>370</line>
-          <option name="timeStamp" value="25" />
+          <url>file://$PROJECT_DIR$/src/main/java/simulator/Cache.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="47" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

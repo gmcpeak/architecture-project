@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class FileReader {
     public static void fileReader(DRAM dram, Register PC, Register IR){
-        String fn = "src/main/java/simulator/program.txt";
+        String fn = "./program.txt";
 
         try {
             File f = new File(fn);
@@ -13,24 +13,22 @@ public class FileReader {
 
             dram.memNuke(); // memset all to 0
 
-            int index = 1024;
+            int word = 6;
 
 
             while (reader.hasNextLine()) {
                 int[] data = Helper.intToBinArray(Helper.binaryToInt(reader.nextLine()), 16);
 
-                dram.memset(data, index);
-                index += 16;
+                dram.memset(data, word*16);
+                word += 1;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        dram.memset(Helper.intToBinArray(5,16), 16);
-
         System.out.println("Program Loaded into Memory!");
-        PC.setRegisterValue(Helper.intToBinArray(1024, PC.size));
-        IR.setRegisterValue(Helper.intToBinArray(dram.fetchAddress(1024), IR.size));
+        PC.setRegisterValue(Helper.intToBinArray((6*16)+16, PC.size));
+        IR.setRegisterValue(Helper.intToBinArray(dram.fetchAddress(6*16), IR.size));
     }
 
 //    public static void main(String args[]) {
