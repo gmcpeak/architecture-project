@@ -5,13 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d602c491-6be4-4115-90c1-2ffcc31615e3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-simulator.DRAMTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-simulator.DRAMTest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-simulator.RegisterTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-simulator.RegisterTest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-simulator.UITest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-simulator.UITest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/simulator.DRAMTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/simulator.DRAMTest.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/simulator.UITest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/simulator.UITest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Instructions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Instructions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Parser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,23 +45,24 @@
     </option>
   </component>
   <component name="ProjectId" id="2F811yDFHHqdfehJynsn5huUh7g" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/grady/architecture-project/src/main/java/simulator&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="JUnit.DRAMTest">
+}</component>
+  <component name="RunManager" selected="Application.Regular">
     <configuration name="DRAMTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="simulator.DRAMTest" />
       <module name="architecture-project" />
@@ -75,8 +76,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Regular" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="$PROJECT_DIR$/../.jdks/corretto-18.0.2" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="simulator.Computer" />
+      <module name="simulator" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="DRAMTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="architecture-project" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="simulator.*" />
@@ -139,6 +148,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.Regular" />
+      <item itemvalue="Application.DRAMTest" />
+      <item itemvalue="JUnit.DRAMTest" />
+      <item itemvalue="JUnit.DRAMTest.loadTestNoIndexNoIndirect" />
+      <item itemvalue="JUnit.DRAMTest.storeIndex" />
+      <item itemvalue="JUnit.DRAMTest.storeNoIndex" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.DRAMTest" />
@@ -183,11 +200,6 @@
           <url>file://$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java</url>
           <line>370</line>
           <option name="timeStamp" value="25" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java</url>
-          <line>386</line>
-          <option name="timeStamp" value="31" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
