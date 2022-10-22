@@ -51,6 +51,7 @@ public class Computer {
         // device buffers
 //        this.printer_buffer = new Register(16);
 //        this.keyboard_buffer = new Register(16);
+        this.deviceBuffers = new Register[2];
         this.deviceBuffers[0] = new Register(16);
         this.deviceBuffers[1] = new Register(16);
 
