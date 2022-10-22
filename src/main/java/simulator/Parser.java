@@ -18,6 +18,14 @@ public class Parser {
         return separated;
     }
 
+    public int[] parse_for_io(String in) {
+        int[] separated = new int[2];
+        separated[0] = Helper.binaryToInt(in.substring(6, 8));
+        separated[1] = Helper.binaryToInt(in.substring(11, 16));
+
+        return separated;
+    }
+
     /**
      * Decodes the opcode and calls the correect instruction
      * @param in Binary string
@@ -56,6 +64,15 @@ public class Parser {
                 c.MAR.setRegisterValue(Helper.intToBinArray(params_42[3], 16));
                 Instructions.STX(c.dram, c.MAR, c.MBR, c.IXs[params_42[1]], params_42[2], c.MFR);
                 break;
+            case "110001": // 61, IN
+                int[] params_61 = parse_for_io(in);
+                Instructions.IN(c.GPRs[params_61[0]], c.deviceBuffers[params_61[1]]);
+            case "110010": // 62, OUT
+                int[] params_62 = parse_for_io(in);
+                Instructions.OUT(c.GPRs[params_62[0]], c.deviceBuffers[params_62[1]]);
+            case "110011": // 63, CHK
+                int[] params_63 = parse_for_io(in);
+                Instructions.CHK(c.GPRs[params_63[0]], c.deviceBuffers[params_63[1]]);
             default:
                 System.out.println("ERROR: Invalid opcode");
         }

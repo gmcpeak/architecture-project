@@ -22,6 +22,7 @@ public class Computer {
     Register MAR;
     Register MFR;
 
+    Register[] deviceBuffers;
     // UI
     UI ui;
     Instructions instructions;
@@ -46,6 +47,12 @@ public class Computer {
         this.MAR = new Register(12);
         this.MBR = new Register(16);
         this.MFR = new Register(4);
+
+        // device buffers
+//        this.printer_buffer = new Register(16);
+//        this.keyboard_buffer = new Register(16);
+        this.deviceBuffers[0] = new Register(16);
+        this.deviceBuffers[1] = new Register(16);
 
         // Initialize GPRs
         System.out.println("Initializing General Purpose Registers");
