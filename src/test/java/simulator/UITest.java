@@ -2,10 +2,9 @@ package simulator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ExampleTest {
-
+class UITest {
     @org.junit.jupiter.api.Test
-    void five() {
-        assertEquals(5, Example.five());
+    void placeHolderTest(){
+        assertEquals(true, true);
     }
 }
