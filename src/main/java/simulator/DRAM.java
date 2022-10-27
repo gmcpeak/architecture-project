@@ -46,12 +46,11 @@ public class DRAM {
         EA = this.calculateEffectiveAddress(address, IX, I);
 
         boolean cache_hit = false;
-        // BEGIN CACHING
-        int[] cache_result = this.cache.search(EA);
 
+        // BEGIN CACHING
+        int[] cache_result = this.cache.search(this, EA);
         if (cache_result != null) {
             MBR.setRegisterValue(cache_result);
-            cache_hit = true;
         }
         // END CACHING
 
@@ -74,10 +73,6 @@ public class DRAM {
         } else {
             // machine fault 4
             returnCode = 4;
-        }
-
-        if (!cache_hit){
-            this.cache.placeBlock(this, EA);
         }
         // default no machine fault
         return returnCode;

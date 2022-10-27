@@ -42,7 +42,7 @@ public class Cache {
             System.out.println(s);
         }
 
-        public int[] search(int addr) {
+        public int[] search(DRAM mem, int addr) {
             for (int i = 0; i < this.cacheLines.length; i++) {
                 int max_offset_addr = this.cacheLines[i].tag + 48;
                 if (this.cacheLines[i].valid == 1){
@@ -58,8 +58,9 @@ public class Cache {
                 }
 
             }
-            //else its a miss :(
+            //else its a miss :( and we want to add this address and the following blocks to cache
             System.out.println("CACHE MISS :(");
+            this.placeBlock(mem, addr);
             return null;
         }
 }
