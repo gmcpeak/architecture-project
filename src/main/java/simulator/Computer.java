@@ -49,10 +49,9 @@ public class Computer {
         this.MFR = new Register(4);
 
         // device buffers
-//        this.printer_buffer = new Register(16);
-//        this.keyboard_buffer = new Register(16);
-        //this.deviceBuffers[0] = new Register(16);
-        //this.deviceBuffers[1] = new Register(16);
+        this.deviceBuffers = new Register[2];
+        this.deviceBuffers[0] = new Register(16); // keyboard
+        this.deviceBuffers[1] = new Register(16); // printer
 
         // Initialize GPRs
         System.out.println("Initializing General Purpose Registers");
@@ -109,6 +108,7 @@ public class Computer {
      * @param args
      */
     public static void main(String[] args) {
+        System.out.println(Helper.binaryToInt("1111111111111100"));
         Computer cpu = new Computer(16, 2048, 4, 3+1);
     }
 }

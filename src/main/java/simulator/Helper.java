@@ -21,6 +21,8 @@ public class Helper {
 
         if( numMissing == 0) {
             return binString;
+        } else if (numMissing < 0) {
+            return binString.substring(binString.length() - wordLength, binString.length());
         }
         String missingZeros = new String(new char[numMissing]).replace('\0', '0');
 
@@ -33,7 +35,24 @@ public class Helper {
      * @return the binary number in decimal as an int variable
      */
     public static int binaryToInt(String str) {
-        return Integer.parseInt(str, 2);
+        String tmp =  str.substring(1, str.length());
+        char sign = str.charAt(0);
+        if (sign == '0') {
+            return Integer.parseInt(tmp, 2);
+        }
+
+        String inverted = "";
+        for (int i = 0; i < tmp.length(); i++) {
+            if (tmp.charAt(i) == '0') {
+                inverted = inverted.concat("1");
+            } else{
+                inverted = inverted.concat("0");
+            }
+        }
+
+        if (sign == '1')
+            return -1 * (Integer.parseInt(inverted, 2) + 1);
+        return Integer.parseInt(inverted, 2) + 1;
     }
 
     /**
