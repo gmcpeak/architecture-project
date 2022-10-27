@@ -8,6 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Cache.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Cache.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/simulator/DRAM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/DRAM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/simulator/CacheTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/simulator/CacheTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +58,7 @@
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.Computer">
+  <component name="RunManager" selected="Application.CacheTest">
     <configuration name="CacheTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="simulator.CacheTest" />
       <module name="architecture-project" />
@@ -131,8 +132,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Computer" />
         <item itemvalue="Application.CacheTest" />
+        <item itemvalue="Application.Computer" />
         <item itemvalue="JUnit.CacheTest.load" />
         <item itemvalue="Application.DRAMTest" />
         <item itemvalue="JUnit.DRAMTest" />
@@ -191,11 +192,41 @@
           <line>183</line>
           <option name="timeStamp" value="56" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/simulator/CacheTest.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="60" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/simulator/DRAM.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="62" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/simulator/Cache.java</url>
+          <line>60</line>
+          <option name="timeStamp" value="63" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/simulator/Cache.java</url>
+          <line>67</line>
+          <option name="timeStamp" value="64" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/simulator/CacheTest.java</url>
+          <line>66</line>
+          <option name="timeStamp" value="65" />
+        </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="org.opentest4j.AssertionFailedError" package="org.opentest4j" />
           <option name="timeStamp" value="38" />
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="simulator.DRAM" memberName="cache" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>

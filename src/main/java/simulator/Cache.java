@@ -19,49 +19,59 @@ public class Cache {
             }
 
         }
-        public void placeBlock(DRAM mem, int addr) {
+        public void placeBlock(DRAM mem, int addr, int line) {
             // remove and add back to queue
-            int line = this.LRU.remove();
-            this.LRU.add(line);
+            if (line == -1) {
+                line = this.LRU.remove();
+                this.LRU.add(line);
+            } else {
+                this.LRU.remove(line);
+                this.LRU.add(line);
+            }
+
 
             int tag = addr;
             this.cacheLines[line].setTag(tag);
 
             this.cacheLines[line].setFirst_block_address(addr);
-            int offset = 0;
             int offset_addr = addr;
             for (int i = 0; i < this.num_blocks; i++) {
-                int[] mem_data = mem.fetchBinaryValue(offset_addr + offset);
+                int[] mem_data = mem.fetchBinaryValue((offset_addr + i)*mem.wordSize);
                 this.cacheLines[line].cache_blocks[i].writeData(mem_data);
 
-                offset = offset + mem.wordSize;
             }
             this.cacheLines[line].valid = 1;
             System.out.println("BLOCKS PLACED");
-            String s = String.format("Line used=%d, Address=%d, Offset %d", line, addr, offset);
+            String s = String.format("Line used=%d, Address=%d", line, addr);
             System.out.println(s);
         }
 
-        public int[] search(DRAM mem, int addr) {
+        public int cacheSearch(DRAM mem, int addr) {
             for (int i = 0; i < this.cacheLines.length; i++) {
-                int max_offset_addr = this.cacheLines[i].tag + 48;
-                if (this.cacheLines[i].valid == 1){
-                    if (this.cacheLines[i].tag == addr || ( addr > this.cacheLines[i].tag && addr <= max_offset_addr)) {
+                int max_offset_addr = this.cacheLines[i].tag + 3;
+                if (this.cacheLines[i].valid == 1) {
+                    if (this.cacheLines[i].tag == addr || (addr > this.cacheLines[i].tag && addr <= max_offset_addr)) {
                         int first_addr = this.cacheLines[i].first_block_address;
                         int offset = (addr - first_addr) % this.num_blocks;
 
                         System.out.println("CACHE HIT :P");
                         String s = String.format("Line used=%d, Address=%d, Offset %d", i, addr, offset);
                         System.out.println(s);
-                        return this.cacheLines[i].cache_blocks[offset].data;
+//                        return this.cacheLines[i].cache_blocks[offset].data;
+                        return i;
                     }
                 }
 
             }
-            //else its a miss :( and we want to add this address and the following blocks to cache
+            //else its a miss :(
             System.out.println("CACHE MISS :(");
-            this.placeBlock(mem, addr);
-            return null;
+            return -1;
+        }
+        public int[] getBlock(int line, int address) {
+            CacheLine l = this.cacheLines[line];
+            int offset = (address - l.tag) % this.num_blocks;
+
+            return l.cache_blocks[offset].data;
         }
 }
 

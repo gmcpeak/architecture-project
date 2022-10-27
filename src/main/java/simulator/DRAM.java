@@ -48,9 +48,12 @@ public class DRAM {
         boolean cache_hit = false;
 
         // BEGIN CACHING
-        int[] cache_result = this.cache.search(this, EA);
-        if (cache_result != null) {
-            MBR.setRegisterValue(cache_result);
+        int cache_result = this.cache.cacheSearch(this, (int)EA / 16);
+        if (cache_result != -1) { // HIT
+            MBR.setRegisterValue(this.cache.getBlock(cache_result, address));
+            return EA;
+        } else{
+            this.cache.placeBlock(this, (int)EA / 16, cache_result);
         }
         // END CACHING
 
@@ -114,16 +117,18 @@ public class DRAM {
             if (type.toUpperCase().compareTo("X") == 0) {
                 EA = Helper.arrToInt(MAR.getRegisterValue());
             }
+            int cacheResult = this.cache.cacheSearch(this, (int)EA / 16);
+            if (cacheResult != -1) { // if cache hit
+                this.cache.placeBlock(this, (int)EA / 16, cacheResult);
+            }
             // copy data
-
-            //CACHING
-            this.cache.placeBlock(this, EA);
-            // END CACHING
-
             int[] regData = MBR.getRegisterValue();
             for (int i = 0; i < this.wordSize; i++) {
                 this.data[i+EA] = regData[i];
             }
+
+            // cache miss
+            this.cache.placeBlock(this, (int)EA / 16, cacheResult);
         }  else {
             returnCode = 4;
         }
