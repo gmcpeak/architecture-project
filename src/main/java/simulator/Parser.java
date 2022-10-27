@@ -128,8 +128,28 @@ public class Parser {
                 Instructions.JNE(c.PC, c.GPRs[params_11[0]], params_11[2]);
                 break;
             case "001010": // Octal 12, Jump if condition code
-                int[] params_12 = parse_for_jumps(in);
+                int[] params_12 = parse_for_jcc(in);
                 Instructions.JCC(c.CC, c.PC, params_12[0], params_12[1]);
+                break;
+            case "001011": // Octal 13, Jump to address
+                int[] params_13 = parse_for_jumps(in);
+                Instructions.JMA(c.PC, params_13[2]);
+                break;
+            case "001100": // Octal 14, Jump and save return address
+                int[] params_14 = parse_for_jumps(in);
+                Instructions.JSR(c.PC, c.GPRs[3], params_14[2]);
+                break;
+            case "001101": // Octal 15, Return from subroutine
+                int[] params_15 = parse_for_jumps(in);
+                Instructions.RFS(c.GPRs[0], c.GPRs[3], c.PC, params_15[2]);
+                break;
+            case "001110": // Octal 16, Subtract one and branch
+                int[] params_16 = parse_for_jumps(in);
+                Instructions.SOB(c.PC, c.GPRs[params_16[0]], params_16[2]);
+                break;
+            case "001111":
+                int[] params_17 = parse_for_jumps(in);
+                Instructions.JGE(c.PC, c.GPRs[params_17[0]], params_17[2]);
                 break;
             case "010000": // Octal 20, multiply register by register
                 int[] params_20 = parse_for_register_register_op(in);
