@@ -60,6 +60,10 @@ public class CacheTest {
         Instructions.LDR(dram, MAR, MBR, IX, testReg, 0, MFR);
 
         MAR.setRegisterValue(Helper.intToBinArray(10, wordSize));
+        MBR.setRegisterValue(Helper.intToBinArray(1, 16));
+        Instructions.STR(dram, MAR, MBR, IX, MBR, 0, MFR);
+        MBR.setRegisterValue(Helper.intToBinArray(0, 16));
+        MAR.setRegisterValue(Helper.intToBinArray(10, wordSize));
         Instructions.LDR(dram, MAR, MBR, IX, testReg, 0, MFR);
 
 
@@ -69,6 +73,7 @@ public class CacheTest {
     }
 
     public static void main(String[] args) {
+//        cache();
         cache_offset();
     }
 }
