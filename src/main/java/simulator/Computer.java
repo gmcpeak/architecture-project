@@ -87,8 +87,8 @@ public class Computer {
         if (parser.parse_and_call(Helper.arrToString(this.IR.getRegisterValue()), this)) {
             int curr_pc_val = Helper.arrToInt(this.PC.getRegisterValue());
 
-            this.IR.setRegisterValue(this.dram.fetchBinaryValue(curr_pc_val));
-            int new_pc_val = curr_pc_val + 16;
+            this.IR.setRegisterValue(this.dram.fetchBinaryValue(curr_pc_val*16));
+            int new_pc_val = curr_pc_val + 1;
             this.PC.setRegisterValue(Helper.intToBinArray(new_pc_val, 12));
             this.ui.refresh(this);
             return true;
