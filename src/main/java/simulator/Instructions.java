@@ -251,14 +251,6 @@ public class Instructions {
         MFR.setRegisterValue(Helper.intToBinArray(faultCode, MFR.size));
         int diff = Helper.arrToInt(registerTarget.getRegisterValue())-Helper.arrToInt(MBR.getRegisterValue());
         int[] cc_val = CC.getRegisterValue();
-        if (diff < 0) {
-            diff = diff + 4095;
-            cc_val[1] = 1; // This bit indicates overflow
-            CC.setRegisterValue(cc_val);
-        } else {
-            cc_val[1] = 0;
-            CC.setRegisterValue(cc_val);
-        }
         registerTarget.setRegisterValue(Helper.intToBinArray(diff, registerTarget.getRegisterValue().length));
         return faultCode;
     }
@@ -281,14 +273,6 @@ public class Instructions {
     public static int SIR(Register registerTarget, int immediate, Register CC) {
         int diff = Helper.arrToInt(registerTarget.getRegisterValue()) - immediate;
         int[] cc_val = CC.getRegisterValue();
-        if (diff < 0) {
-            diff = diff + 4095;
-            cc_val[1] = 1; // This bit indicates overflow
-            CC.setRegisterValue(cc_val);
-        } else {
-            cc_val[1] = 0;
-            CC.setRegisterValue(cc_val);
-        }
         registerTarget.setRegisterValue(Helper.intToBinArray(diff, registerTarget.getRegisterValue().length));
         return 0;
     }
@@ -313,6 +297,38 @@ public class Instructions {
         if (cc.getRegisterValue()[bit] == 1) {
             pc.setRegisterValue(Helper.intToBinArray(address-1, pc.getRegisterValue().length));
         }
+        return 0;
+    }
+    public static int JMA(Register pc, int address){
+        pc.setRegisterValue(Helper.intToBinArray(address-1, pc.getRegisterValue().length));
+        return 0;
+    }
+    public static int JSR(Register pc, Register r, int address) {
+        int new_r3 = Helper.arrToInt(pc.getRegisterValue())+1;
+        r.setRegisterValue(Helper.intToBinArray(new_r3, r.getRegisterValue().length));
+        pc.setRegisterValue(Helper.intToBinArray(address, pc.getRegisterValue().length));
+        return 0;
+    }
+    public static int RFS(Register r0, Register r3, Register pc, int immed) {
+        r0.setRegisterValue(Helper.intToBinArray(immed, r0.getRegisterValue().length));
+        int r3_val = Helper.arrToInt(r3.getRegisterValue());
+        pc.setRegisterValue(Helper.intToBinArray(r3_val, pc.getRegisterValue().length));
+        return 0;
+    }
+    public static int SOB(Register pc, Register r, int ea) {
+        int new_val = Helper.arrToInt(r.getRegisterValue())-1;
+        r.setRegisterValue(Helper.intToBinArray(new_val, r.getRegisterValue().length));
+        if (new_val > 0) {
+            pc.setRegisterValue(Helper.intToBinArray(ea, pc.getRegisterValue().length));
+        } else {
+            int new_pc_val = Helper.arrToInt(pc.getRegisterValue())-1;
+            pc.setRegisterValue(Helper.intToBinArray(new_pc_val, pc.getRegisterValue().length));
+        }
+        return 0;
+    }
+    public static int JGE(Register pc, Register r, int address){
+        if (Helper.arrToInt(r.getRegisterValue()) >= 0)
+            pc.setRegisterValue(Helper.intToBinArray(address-1,pc.getRegisterValue().length));
         return 0;
     }
 
