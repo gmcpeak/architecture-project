@@ -13,19 +13,19 @@ public class Parser {
      */
     public int[] parse_for_load_store(String in) {
         int[] separated = new int[4];
-        separated[0] = Helper.binaryToInt(in.substring(6, 8));
-        separated[1] = Helper.binaryToInt(in.substring(8, 10));
-        separated[2] = Helper.binaryToInt(in.substring(10, 11));
-        separated[3] = Helper.binaryToInt(in.substring(11, 16));
+        separated[0] = Helper.binaryToIntForParser(in.substring(6, 8));
+        separated[1] = Helper.binaryToIntForParser(in.substring(8, 10));
+        separated[2] = Helper.binaryToIntForParser(in.substring(10, 11));
+        separated[3] = Helper.binaryToIntForParser(in.substring(11, 16));
         return separated;
     }
 
     public int[] parse_for_arithmetic_op(String in) {
         int[] separated = new int[4];
-        separated[0] = Helper.binaryToInt(in.substring(6, 8));
-        separated[1] = Helper.binaryToInt(in.substring(8, 10));
-        separated[2] = Helper.binaryToInt(in.substring(10, 11));
-        separated[3] = Helper.binaryToInt(in.substring(11, 16));
+        separated[0] = Helper.binaryToIntForParser(in.substring(6, 8));
+        separated[1] = Helper.binaryToIntForParser(in.substring(8, 10));
+        separated[2] = Helper.binaryToIntForParser(in.substring(10, 11));
+        separated[3] = Helper.binaryToIntForParser(in.substring(11, 16));
         return separated;
     }
 
@@ -34,39 +34,39 @@ public class Parser {
      */
     public int[] parse_for_register_register_op(String in) {
         int[] separated = new int[2];
-        separated[0] = Helper.binaryToInt(in.substring(6, 8));
-        separated[1] = Helper.binaryToInt(in.substring(8, 10));
+        separated[0] = Helper.binaryToIntForParser(in.substring(6, 8));
+        separated[1] = Helper.binaryToIntForParser(in.substring(8, 10));
         return separated;
     }
 
     public int[] parse_for_jumps(String in){
         int[] separated = new int[3];
-        separated[0] = Helper.binaryToInt(in.substring(6, 8));
-        separated[1] = Helper.binaryToInt(in.substring(8, 11));
-        separated[2] = Helper.binaryToInt(in.substring(11, 16));
+        separated[0] = Helper.binaryToIntForParser(in.substring(6, 8));
+        separated[1] = Helper.binaryToIntForParser(in.substring(8, 11));
+        separated[2] = Helper.binaryToIntForParser(in.substring(11, 16));
         return separated;
     }
 
     public int[] parse_for_jcc(String in) {
         int[] separated = new int[2];
-        separated[0] = Helper.binaryToInt(in.substring(6, 8));
-        separated[1] = Helper.binaryToInt(in.substring(11, 16));
+        separated[0] = Helper.binaryToIntForParser(in.substring(6, 8));
+        separated[1] = Helper.binaryToIntForParser(in.substring(11, 16));
         return separated;
     }
 
     public int[] parse_for_shift_rotate(String in) {
         int[] separated = new int[4];
-        separated[0] = Helper.binaryToInt(in.substring(6, 8));
-        separated[1] = Helper.binaryToInt(in.substring(8, 9));
-        separated[2] = Helper.binaryToInt(in.substring(9, 10));
-        separated[3] = Helper.binaryToInt(in.substring(12, 16));
+        separated[0] = Helper.binaryToIntForParser(in.substring(6, 8));
+        separated[1] = Helper.binaryToIntForParser(in.substring(8, 9));
+        separated[2] = Helper.binaryToIntForParser(in.substring(9, 10));
+        separated[3] = Helper.binaryToIntForParser(in.substring(12, 16));
         return separated;
     }
     
     public int[] parse_for_io(String in) {
         int[] separated = new int[2];
-        separated[0] = Helper.binaryToInt(in.substring(6, 8));
-        separated[1] = Helper.binaryToInt(in.substring(11, 16));
+        separated[0] = Helper.binaryToIntForParser(in.substring(6, 8));
+        separated[1] = Helper.binaryToIntForParser(in.substring(11, 16));
 
         return separated;
     }

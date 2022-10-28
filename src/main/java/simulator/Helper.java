@@ -28,14 +28,18 @@ public class Helper {
 
         return missingZeros.concat(binString);
     }
-
+    public static int binaryToIntForParser(String str){
+        return Integer.parseInt(str, 2);
+    }
     /**
      * Converts a binary string into its corresponding decimal representation
      * @param str the binary number to be converted
      * @return the binary number in decimal as an int variable
      */
     public static int binaryToInt(String str) {
+        System.out.println("STR = "+str);
         String tmp =  str.substring(1, str.length());
+
         char sign = str.charAt(0);
         if (sign == '0') {
             return Integer.parseInt(tmp, 2);

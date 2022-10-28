@@ -27,7 +27,7 @@ public class FileReader {
         }
 
         System.out.println("Program Loaded into Memory!");
-        PC.setRegisterValue(Helper.intToBinArray((6*16)+16, PC.size));
+        PC.setRegisterValue(Helper.intToBinArray(6, PC.size));
         IR.setRegisterValue(Helper.intToBinArray(dram.fetchAddress(6*16), IR.size));
     }
 
