@@ -29,6 +29,8 @@ public class UI {
     static JLabel mar;
     static JLabel value_at_mar;
 
+    static int counter = 0;
+
     /**
      * When the user executed a binary string in the input field, this is the function that is used to make that happen
      * @param input a binary code to be interpreted for execution
@@ -41,6 +43,15 @@ public class UI {
     // IN
     private static void console_keyboard_helper(String input, Computer c) {
         c.deviceBuffers[0].setRegisterValue(Helper.intToBinArray(Helper.binaryToInt(input), 16));
+        if (counter < 20 && c.running_program == 1) {
+            c.dram.memset(Helper.intToBinArray(Helper.binaryToInt(input), 16), counter*16);
+//            console_printer.setText(input);
+            c.deviceBuffers[1].setRegisterValue(Helper.intToBinArray(Helper.binaryToInt(input), 16));
+            counter++;
+        }
+        refresh(c);
+//        System.out.println(counter);
+//        Instructions.STR()
 //        String instruction = Helper.intToBinary(61, 8);
 //        instruction = "110001" + "0" + "0000" + "00001";
         // 1100010000000000
@@ -182,6 +193,7 @@ public class UI {
         load_program_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                c.running_program = 1;
                 FileReader.fileReader(c.dram, c.PC, c.IR);
                 refresh(c);
             }

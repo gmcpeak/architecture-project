@@ -28,6 +28,8 @@ public class Computer {
     Instructions instructions;
     Parser parser;
 
+    int running_program;
+
 
     /**
      * Creates object and sets proper conditions for architecture
@@ -72,6 +74,8 @@ public class Computer {
         }
 
         this.parser = new Parser();
+
+        this.running_program = 0;
 
         // Start UI
         System.out.println("Starting GUI");
