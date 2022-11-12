@@ -46,18 +46,20 @@ public class DRAM {
         EA = this.calculateEffectiveAddress(address, IX, I);
 
         boolean cache_hit = false;
-        // BEGIN CACHING
-        int[] cache_result = this.cache.search(EA);
 
-        if (cache_result != null) {
-            MBR.setRegisterValue(cache_result);
-            cache_hit = true;
+        // BEGIN CACHING
+        int cache_result = this.cache.cacheSearch(this, (int)EA / 16);
+        if (cache_result != -1) { // HIT
+            MBR.setRegisterValue(this.cache.getBlock(cache_result, address));
+            return 0;
+        } else{
+            this.cache.placeBlock(this, (int)EA / 16, cache_result);
         }
         // END CACHING
 
         // validate address if fault occurs return with fault code
         returnCode = this.checkAddress(EA);
-        if (returnCode != 0) {
+        if (returnCode != -1) {
             return returnCode;
         }
 
@@ -71,13 +73,6 @@ public class DRAM {
         } else if (type.toUpperCase().compareTo("A") == 0) {
             int [] binaryEA = Helper.intToBinArray(EA, this.wordSize);
             MBR.setRegisterValue(binaryEA);
-        } else {
-            // machine fault 4
-            returnCode = 4;
-        }
-
-        if (!cache_hit){
-            this.cache.placeBlock(this, EA);
         }
         // default no machine fault
         return returnCode;
@@ -111,7 +106,7 @@ public class DRAM {
 
         // validate address if fault occurs return with fault code
         returnCode = this.checkAddress(EA);
-        if (returnCode != 0) {
+        if (returnCode != -1) {
             return returnCode;
         }
 
@@ -119,18 +114,19 @@ public class DRAM {
             if (type.toUpperCase().compareTo("X") == 0) {
                 EA = Helper.arrToInt(MAR.getRegisterValue());
             }
+            System.out.println(String.format("USED EA=%d", EA));
+            int cacheResult = this.cache.cacheSearch(this, (int)EA / 16);
+            if (cacheResult != -1) { // if cache hit
+                this.cache.placeBlock(this, (int)EA / 16, cacheResult);
+            }
             // copy data
-
-            //CACHING
-            this.cache.placeBlock(this, EA);
-            // END CACHING
-
             int[] regData = MBR.getRegisterValue();
             for (int i = 0; i < this.wordSize; i++) {
                 this.data[i+EA] = regData[i];
             }
-        }  else {
-            returnCode = 4;
+
+            // cache miss
+            this.cache.placeBlock(this, (int)EA / 16, cacheResult);
         }
 
         return returnCode;
@@ -201,13 +197,15 @@ public class DRAM {
         exceed bounds. return the proper fault if it does.
          */
         int endAddress = address + this.wordSize;
-        if (address >= 0 && address <= 5) {
-            return 1;
-        } else if (address < 0 || address >= this.size || endAddress >= this.size) {
-            return 8;
-        } else if (address % this.wordSize != 0) {
-            System.out.println("Address is not on a word");
+//        if (address >= 0 && address <= 5) {
+//            return 1;
+//        }
+        if (address <= 5) {
+            return 0;
         }
-        return 0;
+        else if (address >= this.size || endAddress >= this.size) {
+            return 3;
+        }
+        return -1;
     }
 }

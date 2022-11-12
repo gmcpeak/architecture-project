@@ -2,6 +2,9 @@ package simulator;
 
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * The main class containing the essential data and the main method
@@ -29,6 +32,11 @@ public class Computer {
     Parser parser;
 
 
+    Boolean flag;
+    String buf;
+
+
+
     /**
      * Creates object and sets proper conditions for architecture
      * @param wordSize the length of a word in our word-addressable memory
@@ -40,6 +48,8 @@ public class Computer {
         this.wordSize = wordSize;
         this.dram = new DRAM(wordSize, dramSize);
 
+        dram.memset(Helper.intToBinArray(1000, wordSize), 0);
+
         // initialize some registers
         this.PC = new Register(12);
         this.CC = new Register(4);
@@ -49,10 +59,12 @@ public class Computer {
         this.MFR = new Register(4);
 
         // device buffers
-//        this.printer_buffer = new Register(16);
-//        this.keyboard_buffer = new Register(16);
-        //this.deviceBuffers[0] = new Register(16);
-        //this.deviceBuffers[1] = new Register(16);
+        this.deviceBuffers = new Register[2];
+        this.deviceBuffers[0] = new Register(16); // keyboard
+        this.deviceBuffers[1] = new Register(16); // printer
+
+        this.flag = false;
+        this.buf = "";
 
         // Initialize GPRs
         System.out.println("Initializing General Purpose Registers");
@@ -74,6 +86,7 @@ public class Computer {
 
         this.parser = new Parser();
 
+
         // Start UI
         System.out.println("Starting GUI");
         this.ui = new UI();
@@ -88,8 +101,8 @@ public class Computer {
         if (parser.parse_and_call(Helper.arrToString(this.IR.getRegisterValue()), this)) {
             int curr_pc_val = Helper.arrToInt(this.PC.getRegisterValue());
 
-            this.IR.setRegisterValue(this.dram.fetchBinaryValue(curr_pc_val));
-            int new_pc_val = curr_pc_val + 16;
+            this.IR.setRegisterValue(this.dram.fetchBinaryValue(curr_pc_val*16));
+            int new_pc_val = curr_pc_val + 1;
             this.PC.setRegisterValue(Helper.intToBinArray(new_pc_val, 12));
             this.ui.refresh(this);
             return true;

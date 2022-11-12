@@ -2,10 +2,32 @@ package simulator;
 
 
 import java.util.Arrays;
+import java.util.concurrent.locks.Lock;
 
 public class Instructions {
+
+    private static int[] intToFaultCode(int i) {
+        if (i == 0) {
+            System.out.println("0 fault");
+            return new int[]{0, 0, 0, 1};
+        } else if (i ==1) {
+            System.out.println("1 fault");
+
+            return new int[]{0, 0, 1, 0};
+        } else if (i == 2) {
+            System.out.println("2 fault");
+
+            return new int[]{0, 1, 0, 0};
+        } else if (i == 3) {
+            System.out.println("3 fault");
+
+            return new int[]{1, 0, 0, 0};
+        }
+
+        return new int[]{1, 1, 1, 1};
+    }
     public static int LDR(DRAM dram, Register MAR, Register MBR, Register IX, Register registerTarget,
-                          int indirect, Register MFR) {
+                          int indirect, Register MFR, Register PC) {
         /*
         dram - pointer to dram object
         MAR - mar register that holds address
@@ -37,9 +59,13 @@ public class Instructions {
         }
         System.out.println("------------------------------");
 
-        if (faultCode != 0) return faultCode;
+        if (faultCode != -1) {
+            int[] binFault = intToFaultCode(faultCode);
+            MFR.setRegisterValue(binFault);
+            TRP(dram, PC);
+            return faultCode;
+        }
 
-        MFR.setRegisterValue(Helper.intToBinArray(faultCode, MFR.size));
 
         registerTarget.setRegisterValue(MBR.getRegisterValue());
 
@@ -47,7 +73,7 @@ public class Instructions {
     }
 
     public static int LDA(DRAM dram, Register MAR, Register MBR, Register IX, Register registerTarget,
-                          int indirect, Register MFR) {
+                          int indirect, Register MFR, Register PC) {
         /*
         dram - pointer to dram object
         MAR - mar register that holds address
@@ -79,15 +105,19 @@ public class Instructions {
         System.out.println("------------------------------");
 
 
-        if (faultCode != 0) return faultCode;
+        if (faultCode != -1) {
+            int[] binFault = intToFaultCode(faultCode);
+            MFR.setRegisterValue(binFault);
+            TRP(dram, PC);
+            return faultCode;
+        }
 
-        MFR.setRegisterValue(Helper.intToBinArray(faultCode, MFR.size));
         registerTarget.setRegisterValue(MBR.getRegisterValue());
 
         return faultCode;
     }
 
-    public static int LDX(DRAM dram, Register MAR, Register MBR, Register IX, int indirect, Register MFR) {
+    public static int LDX(DRAM dram, Register MAR, Register MBR, Register IX, int indirect, Register MFR, Register PC) {
         /*
         dram - pointer to dram object
         MAR - mar register that holds address
@@ -118,16 +148,20 @@ public class Instructions {
         }
         System.out.println("------------------------------");
 
-        if (faultCode != 0) return faultCode;
+        if (faultCode != -1) {
+            int[] binFault = intToFaultCode(faultCode);
+            MFR.setRegisterValue(binFault);
+            TRP(dram, PC);
+            return faultCode;
+        }
 
-        MFR.setRegisterValue(Helper.intToBinArray(faultCode, MFR.size));
         IX.setRegisterValue(MBR.getRegisterValue());
 
         return faultCode;
     }
 
     public static int STR(DRAM dram, Register MAR, Register MBR, Register IX, Register registerTarget,
-                          int indirect, Register MFR) {
+                          int indirect, Register MFR, Register PC) {
         /*
         dram - pointer to dram object
         MAR - mar register that holds address
@@ -158,10 +192,15 @@ public class Instructions {
             System.out.println(String.format("IX VALUE %s", Arrays.toString(IX.getRegisterValue())));
         }
         System.out.println("------------------------------");
-
-        if (faultCode != 0) return faultCode;
-
-        MFR.setRegisterValue(Helper.intToBinArray(faultCode, MFR.size));
+        System.out.println("Fault Code " + Integer.toString(faultCode));
+        if (faultCode != -1) {
+            int[] binFault = intToFaultCode(faultCode);
+            MFR.setRegisterValue(binFault);
+            TRP(dram, PC);
+            return faultCode;
+        } else {
+            MFR.setRegisterValue(new int[]{1, 1, 1, 1});
+        }
 
 //        registerTarget.setRegisterValue(Arrays.toString(MBR.getRegisterValue().toString()));
 
@@ -169,7 +208,7 @@ public class Instructions {
     }
 
     public static int STX(DRAM dram, Register MAR, Register MBR, Register IX,
-                          int indirect, Register MFR) {
+                          int indirect, Register MFR, Register PC) {
         /*
         dram - pointer to dram object
         MAR - mar register that holds address
@@ -204,26 +243,31 @@ public class Instructions {
         }
         System.out.println("------------------------------");
 
-        if (faultCode != 0) return faultCode;
-
-        MFR.setRegisterValue(Helper.intToBinArray(faultCode, MFR.size));
-
+        if (faultCode != -1) {
+            int[] binFault = intToFaultCode(faultCode);
+            MFR.setRegisterValue(binFault);
+            TRP(dram, PC);
+            return faultCode;
+        }
         // registerTarget.setRegisterValue(Arrays.toString(MBR.getRegisterValue().toString()));
 
         return faultCode;
     }
 
     public static int AMR(DRAM dram, Register MAR, Register MBR, Register IX, Register registerTarget,
-                          int indirect, Register MFR, Register CC){
+                          int indirect, Register MFR, Register CC, Register PC){
         if (IX != null){
             System.out.println(String.format("IX VALUE %s", Arrays.toString(IX.getRegisterValue())));
         }
 
         int faultCode = dram.load(MAR, MBR, IX, indirect, "R");
 
-        if (faultCode != 0) return faultCode;
-
-        MFR.setRegisterValue(Helper.intToBinArray(faultCode, MFR.size));
+        if (faultCode != -1) {
+            int[] binFault = intToFaultCode(faultCode);
+            MFR.setRegisterValue(binFault);
+            TRP(dram, PC);
+            return faultCode;
+        }
         int sum = Helper.arrToInt(registerTarget.getRegisterValue())+Helper.arrToInt(MBR.getRegisterValue());
         int[] cc_val = CC.getRegisterValue();
         if (sum > 4095) {
@@ -239,26 +283,23 @@ public class Instructions {
     }
 
     public static int SMR(DRAM dram, Register MAR, Register MBR, Register IX, Register registerTarget,
-                          int indirect, Register MFR, Register CC){
+                          int indirect, Register MFR, Register CC, Register PC){
         if (IX != null){
             System.out.println(String.format("IX VALUE %s", Arrays.toString(IX.getRegisterValue())));
         }
 
         int faultCode = dram.load(MAR, MBR, IX, indirect, "R");
 
-        if (faultCode != 0) return faultCode;
+        if (faultCode != -1) {
+            int[] binFault = intToFaultCode(faultCode);
+            MFR.setRegisterValue(binFault);
+            TRP(dram, PC);
+            return faultCode;
+        }
 
         MFR.setRegisterValue(Helper.intToBinArray(faultCode, MFR.size));
         int diff = Helper.arrToInt(registerTarget.getRegisterValue())-Helper.arrToInt(MBR.getRegisterValue());
         int[] cc_val = CC.getRegisterValue();
-        if (diff < 0) {
-            diff = diff + 4095;
-            cc_val[1] = 1; // This bit indicates overflow
-            CC.setRegisterValue(cc_val);
-        } else {
-            cc_val[1] = 0;
-            CC.setRegisterValue(cc_val);
-        }
         registerTarget.setRegisterValue(Helper.intToBinArray(diff, registerTarget.getRegisterValue().length));
         return faultCode;
     }
@@ -281,14 +322,6 @@ public class Instructions {
     public static int SIR(Register registerTarget, int immediate, Register CC) {
         int diff = Helper.arrToInt(registerTarget.getRegisterValue()) - immediate;
         int[] cc_val = CC.getRegisterValue();
-        if (diff < 0) {
-            diff = diff + 4095;
-            cc_val[1] = 1; // This bit indicates overflow
-            CC.setRegisterValue(cc_val);
-        } else {
-            cc_val[1] = 0;
-            CC.setRegisterValue(cc_val);
-        }
         registerTarget.setRegisterValue(Helper.intToBinArray(diff, registerTarget.getRegisterValue().length));
         return 0;
     }
@@ -313,6 +346,38 @@ public class Instructions {
         if (cc.getRegisterValue()[bit] == 1) {
             pc.setRegisterValue(Helper.intToBinArray(address-1, pc.getRegisterValue().length));
         }
+        return 0;
+    }
+    public static int JMA(Register pc, int address){
+        pc.setRegisterValue(Helper.intToBinArray(address, pc.getRegisterValue().length));
+        return 0;
+    }
+    public static int JSR(Register pc, Register r, int address) {
+        int new_r3 = Helper.arrToInt(pc.getRegisterValue())+1;
+        r.setRegisterValue(Helper.intToBinArray(new_r3, r.getRegisterValue().length));
+        pc.setRegisterValue(Helper.intToBinArray(address, pc.getRegisterValue().length));
+        return 0;
+    }
+    public static int RFS(Register r0, Register r3, Register pc, int immed) {
+        r0.setRegisterValue(Helper.intToBinArray(immed, r0.getRegisterValue().length));
+        int r3_val = Helper.arrToInt(r3.getRegisterValue());
+        pc.setRegisterValue(Helper.intToBinArray(r3_val, pc.getRegisterValue().length));
+        return 0;
+    }
+    public static int SOB(Register pc, Register r, int ea) {
+        int new_val = Helper.arrToInt(r.getRegisterValue())-1;
+        r.setRegisterValue(Helper.intToBinArray(new_val, r.getRegisterValue().length));
+        if (new_val > 0) {
+            pc.setRegisterValue(Helper.intToBinArray(ea, pc.getRegisterValue().length));
+        } else {
+            int new_pc_val = Helper.arrToInt(pc.getRegisterValue())-1;
+            pc.setRegisterValue(Helper.intToBinArray(new_pc_val, pc.getRegisterValue().length));
+        }
+        return 0;
+    }
+    public static int JGE(Register pc, Register r, int address){
+        if (Helper.arrToInt(r.getRegisterValue()) >= 0)
+            pc.setRegisterValue(Helper.intToBinArray(address-1,pc.getRegisterValue().length));
         return 0;
     }
 
@@ -486,6 +551,18 @@ public class Instructions {
         } else {
             r.setRegisterValue(Helper.intToBinArray(0, 16));
         }
+    }
+
+    public static int TRP(DRAM dram, Register PC) {
+        int [] currPC = PC.getRegisterValue();
+        int i = Helper.arrToInt(currPC);
+        dram.memset(Helper.intToBinArray(i, 16), 2); // save PC
+
+        PC.setRegisterValue(dram.fetchBinaryValue(0)); // PC set to value in 0
+
+        PC.setRegisterValue(dram.fetchBinaryValue(2));
+
+        return 0;
     }
 
 }

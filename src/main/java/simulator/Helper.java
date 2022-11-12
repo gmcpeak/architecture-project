@@ -21,19 +21,42 @@ public class Helper {
 
         if( numMissing == 0) {
             return binString;
+        } else if (numMissing < 0) {
+            return binString.substring(binString.length() - wordLength, binString.length());
         }
         String missingZeros = new String(new char[numMissing]).replace('\0', '0');
 
         return missingZeros.concat(binString);
     }
-
+    public static int binaryToIntForParser(String str){
+        return Integer.parseInt(str, 2);
+    }
     /**
      * Converts a binary string into its corresponding decimal representation
      * @param str the binary number to be converted
      * @return the binary number in decimal as an int variable
      */
     public static int binaryToInt(String str) {
-        return Integer.parseInt(str, 2);
+//        System.out.println("STR = "+str);
+        String tmp =  str.substring(1, str.length());
+
+        char sign = str.charAt(0);
+        if (sign == '0') {
+            return Integer.parseInt(tmp, 2);
+        }
+
+        String inverted = "";
+        for (int i = 0; i < tmp.length(); i++) {
+            if (tmp.charAt(i) == '0') {
+                inverted = inverted.concat("1");
+            } else{
+                inverted = inverted.concat("0");
+            }
+        }
+
+        if (sign == '1')
+            return -1 * (Integer.parseInt(inverted, 2) + 1);
+        return Integer.parseInt(inverted, 2) + 1;
     }
 
     /**
@@ -88,7 +111,7 @@ public class Helper {
 
         int[] result = new int[wordLength];
 
-        for (int i = 0; i < wordLength; i++) {
+        for (int i = wordLength-1; i > 0; i--) {
             result[i] = Integer.parseInt(String.valueOf(binString.charAt(i)));
         }
 
