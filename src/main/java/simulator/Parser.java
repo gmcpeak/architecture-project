@@ -71,6 +71,10 @@ public class Parser {
         return separated;
     }
 
+    public String parse_for_trap(String in) {
+        return in.substring(12, 16);
+    }
+
     /**
      * Decodes the opcode and calls the correect instruction
      * @param in Binary string
@@ -81,35 +85,37 @@ public class Parser {
         System.out.println(in);
         if (in.length() != 16) {return false;}
         String opcode = in.substring(0, 6);
+        System.out.println(opcode);
         switch (opcode) {
             case "000000":
+                System.out.println("Halt xD");
                 return false;
             case "000001": // Octal 01, load register from memory
                 int[] params_01 = parse_for_load_store(in);
                 c.MAR.setRegisterValue(Helper.intToBinArray(params_01[3], 16));
-                Instructions.LDR(c.dram, c.MAR, c.MBR, c.IXs[params_01[1]], c.GPRs[params_01[0]], params_01[2], c.MFR);
+                Instructions.LDR(c.dram, c.MAR, c.MBR, c.IXs[params_01[1]], c.GPRs[params_01[0]], params_01[2], c.MFR, c.PC);
                 break;
             case "000010": // Octal 02, store register to memory
                 int[] params_02 = parse_for_load_store(in);
                 c.MAR.setRegisterValue(Helper.intToBinArray(params_02[3], 16));
-                Instructions.STR(c.dram, c.MAR, c.MBR, c.IXs[params_02[1]], c.GPRs[params_02[0]], params_02[2], c.MFR);
+                Instructions.STR(c.dram, c.MAR, c.MBR, c.IXs[params_02[1]], c.GPRs[params_02[0]], params_02[2], c.MFR, c.PC);
                 break;
             case "000011": // Octal 03, load register with address
                 int[] params_03 = parse_for_load_store(in);
                 c.MAR.setRegisterValue(Helper.intToBinArray(params_03[3], 16));
-                Instructions.LDA(c.dram, c.MAR, c.MBR, c.IXs[params_03[1]], c.GPRs[params_03[0]], params_03[2], c.MFR);
+                Instructions.LDA(c.dram, c.MAR, c.MBR, c.IXs[params_03[1]], c.GPRs[params_03[0]], params_03[2], c.MFR, c.PC);
                 break;
             case "000100": // Octal 04, add memory to register
                 int[] params_04 = parse_for_arithmetic_op(in);
                 c.MAR.setRegisterValue(Helper.intToBinArray(params_04[3], 16));
                 Instructions.AMR(c.dram, c.MAR, c.MBR, c.IXs[params_04[1]], c.GPRs[params_04[0]], params_04[2], c.MFR,
-                        c.CC);
+                        c.CC, c.PC);
                 break;
             case "000101": // Octal 05, subtract memory from register
                 int[] params_05 = parse_for_arithmetic_op(in);
                 c.MAR.setRegisterValue(Helper.intToBinArray(params_05[3], 16));
                 Instructions.SMR(c.dram, c.MAR, c.MBR, c.IXs[params_05[1]], c.GPRs[params_05[0]], params_05[2], c.MFR,
-                        c.CC);
+                        c.CC, c.PC);
                 break;
             case "000110": // Octal 06, Add immediate to register
                 int[] params_06 = parse_for_arithmetic_op(in);
@@ -186,12 +192,12 @@ public class Parser {
             case "101001": // Octal 41, load index register from memory
                 int[] params_41 = parse_for_load_store(in);
                 c.MAR.setRegisterValue(Helper.intToBinArray(params_41[3], 16));
-                Instructions.LDX(c.dram, c.MAR, c.MBR, c.IXs[params_41[1]], params_41[2], c.MFR);
+                Instructions.LDX(c.dram, c.MAR, c.MBR, c.IXs[params_41[1]], params_41[2], c.MFR, c.PC);
                 break;
             case "101010": // Octal 42, store index register to memory
                 int[] params_42 = parse_for_load_store(in);
                 c.MAR.setRegisterValue(Helper.intToBinArray(params_42[3], 16));
-                Instructions.STX(c.dram, c.MAR, c.MBR, c.IXs[params_42[1]], params_42[2], c.MFR);
+                Instructions.STX(c.dram, c.MAR, c.MBR, c.IXs[params_42[1]], params_42[2], c.MFR, c.PC);
                 break;
             case "110001": // 61, IN
                 System.out.println("IN");
@@ -207,7 +213,17 @@ public class Parser {
                 int[] params_63 = parse_for_io(in);
                 Instructions.CHK(c.GPRs[params_63[0]], c.deviceBuffers[params_63[1]]);
                 break;
+            case "011000": // 30, TRP
+                String trapcode = parse_for_trap(in);
+                int int_trapcode = Helper.binaryToInt(in);
+                if (int_trapcode<0 || int_trapcode >=16) {
+                    c.MFR.setRegisterValue(new int[]{0, 0, 1, 0});
+                    break;
+                }
+                Instructions.TRP(c.dram, c.PC);
+                break;
             default:
+                c.MFR.setRegisterValue(new int[]{0, 1, 0, 0});
                 System.out.println("ERROR: Invalid opcode");
         }
         return true;

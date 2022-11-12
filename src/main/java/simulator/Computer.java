@@ -2,6 +2,9 @@ package simulator;
 
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * The main class containing the essential data and the main method
@@ -28,7 +31,10 @@ public class Computer {
     Instructions instructions;
     Parser parser;
 
-    int running_program;
+
+    Boolean flag;
+    String buf;
+
 
 
     /**
@@ -42,6 +48,8 @@ public class Computer {
         this.wordSize = wordSize;
         this.dram = new DRAM(wordSize, dramSize);
 
+        dram.memset(Helper.intToBinArray(1000, wordSize), 0);
+
         // initialize some registers
         this.PC = new Register(12);
         this.CC = new Register(4);
@@ -54,6 +62,9 @@ public class Computer {
         this.deviceBuffers = new Register[2];
         this.deviceBuffers[0] = new Register(16); // keyboard
         this.deviceBuffers[1] = new Register(16); // printer
+
+        this.flag = false;
+        this.buf = "";
 
         // Initialize GPRs
         System.out.println("Initializing General Purpose Registers");
@@ -75,7 +86,6 @@ public class Computer {
 
         this.parser = new Parser();
 
-        this.running_program = 0;
 
         // Start UI
         System.out.println("Starting GUI");
@@ -112,7 +122,6 @@ public class Computer {
      * @param args
      */
     public static void main(String[] args) {
-        System.out.println(Helper.binaryToInt("1111111111111100"));
         Computer cpu = new Computer(16, 2048, 4, 3+1);
     }
 }

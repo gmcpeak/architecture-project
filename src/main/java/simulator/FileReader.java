@@ -13,12 +13,17 @@ public class FileReader {
 
             dram.memNuke(); // memset all to 0
 
-            int word = 6;
+            int word = 25;
 
-
+            String t2 = "1100010000000000";
             while (reader.hasNextLine()) {
                 int[] data = Helper.intToBinArray(Helper.binaryToInt(reader.nextLine()), 16);
-
+                if (word == 31) {
+                    for (int i = 0; i < 16; i++){
+                        char x = t2.charAt(i);
+                        data[i] = Integer.parseInt(Character.toString(x));
+                    }
+                }
                 dram.memset(data, word*16);
                 word += 1;
             }
@@ -27,8 +32,8 @@ public class FileReader {
         }
 
         System.out.println("Program Loaded into Memory!");
-        PC.setRegisterValue(Helper.intToBinArray(6, PC.size));
-        IR.setRegisterValue(Helper.intToBinArray(dram.fetchAddress(6*16), IR.size));
+        PC.setRegisterValue(Helper.intToBinArray(26, PC.size));
+        IR.setRegisterValue(Helper.intToBinArray(dram.fetchAddress(25*16), IR.size));
     }
 
 //    public static void main(String args[]) {

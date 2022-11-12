@@ -27,9 +27,11 @@ public class UI {
     static JLabel program_counter;
     static JLabel instruction_register;
     static JLabel mar;
+    static JLabel MFR;
     static JLabel value_at_mar;
 
     static int counter = 0;
+    static int running_program = 0;
 
     /**
      * When the user executed a binary string in the input field, this is the function that is used to make that happen
@@ -42,12 +44,29 @@ public class UI {
 
     // IN
     private static void console_keyboard_helper(String input, Computer c) {
-        c.deviceBuffers[0].setRegisterValue(Helper.intToBinArray(Helper.binaryToInt(input), 16));
-        if (counter < 20 && c.running_program == 1) {
+
+//        c.deviceBuffers[0].setRegisterValue(Helper.intToBinArray(Helper.binaryToInt(input), 16));
+//
+//        c.deviceBuffers[1].setRegisterValue(Helper.intToBinArray(Helper.binaryToInt(input), 16));
+
+//        try {
+//            Thread.sleep(1000);
+//
+//        } catch (Exception e ){}
+
+        if (counter < 20 && running_program == 1) {
             c.dram.memset(Helper.intToBinArray(Helper.binaryToInt(input), 16), counter*16);
 //            console_printer.setText(input);
-            c.deviceBuffers[1].setRegisterValue(Helper.intToBinArray(Helper.binaryToInt(input), 16));
+            c.deviceBuffers[0].setRegisterValue(Helper.intToBinArray(Helper.binaryToInt(input), 16));
+
+            c.deviceBuffers[1].setRegisterValue(Helper.intToBinArray(counter, 16));
             counter++;
+
+            String output = String.format("Numbers entered...%d", counter);
+            System.out.println(output);
+        }
+        else if (counter >= 20) {
+            System.out.println("21 numbers entered, Click Run :)");
         }
         refresh(c);
 //        System.out.println(counter);
@@ -76,8 +95,15 @@ public class UI {
         mar.setText("MAR: "+Helper.arrToDisplayString(c.MAR.data));
         value_at_mar.setText("Value: "+Helper.arrToDisplayString(c.dram.fetchBinaryValue(Helper.arrToInt(c.MAR.data) * 16)));
 
+        MFR.setText("MFR: "+Helper.arrToDisplayString(c.MFR.getRegisterValue()));
+
         // consoles
-        console_printer.setText(Helper.arrToString(c.deviceBuffers[1].getRegisterValue()));
+        if (c.flag) {
+            console_printer.setText(c.buf);
+        } else {
+            console_printer.setText(Helper.arrToString(c.deviceBuffers[1].getRegisterValue()));
+
+        }
         console_keyboard.setText("0000000000000000");
     }
 
@@ -109,6 +135,7 @@ public class UI {
         console_printer = new JLabel("0000000000000000 ");
         console_area.add(console_printer);
 
+
         console_area.add(new JLabel("Console Writer: "));
         console_keyboard = new JTextField("0000000000000000", 16);
         JButton write_button = new JButton("Write value");
@@ -116,13 +143,31 @@ public class UI {
         write_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                console_keyboard_helper(console_keyboard.getText(), c);
-                refresh(c);
+                if (c.flag) {
+                    Program2Reader.run(console_keyboard.getText(), c);
+                    refresh(c);
+                    c.flag = false;
+
+                } else {
+                    console_keyboard_helper(console_keyboard.getText(), c);
+                    refresh(c);
+                }
             }
         });
 
         console_area.add(console_keyboard);
         console_area.add(write_button);
+
+        JButton run_p2 = new JButton("Run program 2");
+
+        run_p2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Program2Reader.readIntoMem(c, console_printer, console_keyboard, write_button);
+                c.flag = true;
+            }
+        });
+        console_area.add(run_p2);
 
         instruction_area = new JPanel();
         instruction_area.add(new JLabel("Input field: "));
@@ -193,7 +238,11 @@ public class UI {
         load_program_button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                c.running_program = 1;
+                running_program = 1;
+                counter = 0;
+//                System.out.println("Running Program 1... Enter 20 Numbers.");
+
+
                 FileReader.fileReader(c.dram, c.PC, c.IR);
                 refresh(c);
             }
@@ -216,11 +265,18 @@ public class UI {
         });
         run_area.add(run_program_button);
         program_area.add(run_area);
-        JPanel memory_area = new JPanel();
+        JPanel memory_area = new JPanel(new GridLayout(3, 1));
         mar = new JLabel("MAR: 0000 0000 0000");
         memory_area.add(mar);
+
+
+
         value_at_mar = new JLabel("Value: 0000 0000 0000 0000");
         memory_area.add(value_at_mar);
+
+        MFR = new JLabel("MFR: 0000");
+        memory_area.add(MFR);
+
         program_area.add(memory_area);
         base_frame.add(program_area);
         base_frame.add(console_area);

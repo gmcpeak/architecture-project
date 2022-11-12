@@ -37,7 +37,7 @@ public class Helper {
      * @return the binary number in decimal as an int variable
      */
     public static int binaryToInt(String str) {
-        System.out.println("STR = "+str);
+//        System.out.println("STR = "+str);
         String tmp =  str.substring(1, str.length());
 
         char sign = str.charAt(0);
@@ -111,7 +111,7 @@ public class Helper {
 
         int[] result = new int[wordLength];
 
-        for (int i = 0; i < wordLength; i++) {
+        for (int i = wordLength-1; i > 0; i--) {
             result[i] = Integer.parseInt(String.valueOf(binString.charAt(i)));
         }
 
