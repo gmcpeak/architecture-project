@@ -25,3 +25,5 @@ hs_err_pid*
 .idea/*
 .idea/misc.xml
 .idea/workspace.xml
+
+#src/main/java/simulator/Program2Reader.java/Program2Reader.java

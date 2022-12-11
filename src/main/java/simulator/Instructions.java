@@ -2,10 +2,91 @@ package simulator;
 
 
 import java.util.Arrays;
+import java.util.concurrent.locks.Lock;
 
 public class Instructions {
+
+    private static int[] intToFaultCode(int i) {
+        if (i == 0) {
+            System.out.println("0 fault");
+            return new int[]{0, 0, 0, 1};
+        } else if (i ==1) {
+            System.out.println("1 fault");
+
+            return new int[]{0, 0, 1, 0};
+        } else if (i == 2) {
+            System.out.println("2 fault");
+
+            return new int[]{0, 1, 0, 0};
+        } else if (i == 3) {
+            System.out.println("3 fault");
+
+            return new int[]{1, 0, 0, 0};
+        }
+
+        return new int[]{1, 1, 1, 1};
+    }
+
+    private static boolean branchPrediction(Register bp) {
+        int bpState;
+
+
+        bpState = Helper.arrToInt(bp.getRegisterValue());
+        System.out.println(String.format("Current State: %s", Integer.toString(bpState)));
+
+
+        if (bpState == 0 || bpState == 1) {
+            System.out.println("Predicting Branch Taken");
+            return true;
+        }
+        System.out.println("Predicting Branch Will NOT be Taken");
+
+        return false;
+    }
+
+    private static void updateBranchPrediciton(Register bp, boolean action) {
+        int bpState;
+        int newState;
+
+        bpState = Helper.arrToInt(bp.getRegisterValue());
+        if (bpState == 0) {
+            if (action) {
+                newState = 0;
+            } else{
+                newState = 1;
+            }
+        } else if (bpState == 1) {
+            if (action) {
+                newState = 0;
+            } else{
+                newState = 2;
+            }
+        }else if (bpState == 2) {
+            if (action) {
+                newState = 3;
+            } else{
+                newState = 2;
+            }
+        }else  {
+            if (action) {
+                newState = 0;
+            } else{
+                newState = 2;
+            }
+        }
+        System.out.println(String.format("OLD BRANCH PRED STATE %s", Integer.toString(bpState)));
+        System.out.println(String.format("NEW BRANCH PRED STATE %s", Integer.toString(newState)));
+        System.out.println(String.format("NEW BRANCH PRED STATE %s", Arrays.toString(Helper.intToBinArray(newState, 2))));
+
+            bp.setRegisterValue(Helper.intToBinArray(newState, 3));
+
+        System.out.println(String.format("BP VALUE %s", Integer.toString(Helper.arrToInt(bp.getRegisterValue()))));
+
+
+    }
+
     public static int LDR(DRAM dram, Register MAR, Register MBR, Register IX, Register registerTarget,
-                          int indirect, Register MFR) {
+                          int indirect, Register MFR, Register PC) {
         /*
         dram - pointer to dram object
         MAR - mar register that holds address
@@ -37,9 +118,13 @@ public class Instructions {
         }
         System.out.println("------------------------------");
 
-        if (faultCode != 0) return faultCode;
+        if (faultCode != -1) {
+            int[] binFault = intToFaultCode(faultCode);
+            MFR.setRegisterValue(binFault);
+            TRP(dram, PC);
+            return faultCode;
+        }
 
-        MFR.setRegisterValue(Helper.intToBinArray(faultCode, MFR.size));
 
         registerTarget.setRegisterValue(MBR.getRegisterValue());
 
@@ -47,7 +132,7 @@ public class Instructions {
     }
 
     public static int LDA(DRAM dram, Register MAR, Register MBR, Register IX, Register registerTarget,
-                          int indirect, Register MFR) {
+                          int indirect, Register MFR, Register PC) {
         /*
         dram - pointer to dram object
         MAR - mar register that holds address
@@ -79,15 +164,19 @@ public class Instructions {
         System.out.println("------------------------------");
 
 
-        if (faultCode != 0) return faultCode;
+        if (faultCode != -1) {
+            int[] binFault = intToFaultCode(faultCode);
+            MFR.setRegisterValue(binFault);
+            TRP(dram, PC);
+            return faultCode;
+        }
 
-        MFR.setRegisterValue(Helper.intToBinArray(faultCode, MFR.size));
         registerTarget.setRegisterValue(MBR.getRegisterValue());
 
         return faultCode;
     }
 
-    public static int LDX(DRAM dram, Register MAR, Register MBR, Register IX, int indirect, Register MFR) {
+    public static int LDX(DRAM dram, Register MAR, Register MBR, Register IX, int indirect, Register MFR, Register PC) {
         /*
         dram - pointer to dram object
         MAR - mar register that holds address
@@ -118,16 +207,20 @@ public class Instructions {
         }
         System.out.println("------------------------------");
 
-        if (faultCode != 0) return faultCode;
+        if (faultCode != -1) {
+            int[] binFault = intToFaultCode(faultCode);
+            MFR.setRegisterValue(binFault);
+            TRP(dram, PC);
+            return faultCode;
+        }
 
-        MFR.setRegisterValue(Helper.intToBinArray(faultCode, MFR.size));
         IX.setRegisterValue(MBR.getRegisterValue());
 
         return faultCode;
     }
 
     public static int STR(DRAM dram, Register MAR, Register MBR, Register IX, Register registerTarget,
-                          int indirect, Register MFR) {
+                          int indirect, Register MFR, Register PC) {
         /*
         dram - pointer to dram object
         MAR - mar register that holds address
@@ -158,10 +251,15 @@ public class Instructions {
             System.out.println(String.format("IX VALUE %s", Arrays.toString(IX.getRegisterValue())));
         }
         System.out.println("------------------------------");
-
-        if (faultCode != 0) return faultCode;
-
-        MFR.setRegisterValue(Helper.intToBinArray(faultCode, MFR.size));
+        System.out.println("Fault Code " + Integer.toString(faultCode));
+        if (faultCode != -1) {
+            int[] binFault = intToFaultCode(faultCode);
+            MFR.setRegisterValue(binFault);
+            TRP(dram, PC);
+            return faultCode;
+        } else {
+            MFR.setRegisterValue(new int[]{1, 1, 1, 1});
+        }
 
 //        registerTarget.setRegisterValue(Arrays.toString(MBR.getRegisterValue().toString()));
 
@@ -169,7 +267,7 @@ public class Instructions {
     }
 
     public static int STX(DRAM dram, Register MAR, Register MBR, Register IX,
-                          int indirect, Register MFR) {
+                          int indirect, Register MFR, Register PC) {
         /*
         dram - pointer to dram object
         MAR - mar register that holds address
@@ -204,26 +302,31 @@ public class Instructions {
         }
         System.out.println("------------------------------");
 
-        if (faultCode != 0) return faultCode;
-
-        MFR.setRegisterValue(Helper.intToBinArray(faultCode, MFR.size));
-
+        if (faultCode != -1) {
+            int[] binFault = intToFaultCode(faultCode);
+            MFR.setRegisterValue(binFault);
+            TRP(dram, PC);
+            return faultCode;
+        }
         // registerTarget.setRegisterValue(Arrays.toString(MBR.getRegisterValue().toString()));
 
         return faultCode;
     }
 
     public static int AMR(DRAM dram, Register MAR, Register MBR, Register IX, Register registerTarget,
-                          int indirect, Register MFR, Register CC){
+                          int indirect, Register MFR, Register CC, Register PC){
         if (IX != null){
             System.out.println(String.format("IX VALUE %s", Arrays.toString(IX.getRegisterValue())));
         }
 
         int faultCode = dram.load(MAR, MBR, IX, indirect, "R");
 
-        if (faultCode != 0) return faultCode;
-
-        MFR.setRegisterValue(Helper.intToBinArray(faultCode, MFR.size));
+        if (faultCode != -1) {
+            int[] binFault = intToFaultCode(faultCode);
+            MFR.setRegisterValue(binFault);
+            TRP(dram, PC);
+            return faultCode;
+        }
         int sum = Helper.arrToInt(registerTarget.getRegisterValue())+Helper.arrToInt(MBR.getRegisterValue());
         int[] cc_val = CC.getRegisterValue();
         if (sum > 4095) {
@@ -239,14 +342,19 @@ public class Instructions {
     }
 
     public static int SMR(DRAM dram, Register MAR, Register MBR, Register IX, Register registerTarget,
-                          int indirect, Register MFR, Register CC){
+                          int indirect, Register MFR, Register CC, Register PC){
         if (IX != null){
             System.out.println(String.format("IX VALUE %s", Arrays.toString(IX.getRegisterValue())));
         }
 
         int faultCode = dram.load(MAR, MBR, IX, indirect, "R");
 
-        if (faultCode != 0) return faultCode;
+        if (faultCode != -1) {
+            int[] binFault = intToFaultCode(faultCode);
+            MFR.setRegisterValue(binFault);
+            TRP(dram, PC);
+            return faultCode;
+        }
 
         MFR.setRegisterValue(Helper.intToBinArray(faultCode, MFR.size));
         int diff = Helper.arrToInt(registerTarget.getRegisterValue())-Helper.arrToInt(MBR.getRegisterValue());
@@ -277,33 +385,69 @@ public class Instructions {
         return 0;
     }
 
-    public static int JZ(Register pc, Register r, int address) {
-        if (Helper.arrToInt(r.getRegisterValue()) == 0) {
+    public static int JZ(Register pc, Register r, int address, Register bp) {
+        boolean takeBranch = branchPrediction(bp);
+        System.out.println(String.format("Register Value: %s", Integer.toString(Helper.arrToInt(r.getRegisterValue()))));
+        if (Helper.arrToInt(r.getRegisterValue()) == 0 || takeBranch) {
+
+            if (!(Helper.arrToInt(r.getRegisterValue()) == 0)) {
+                System.out.println("Prediction wrong, fixing it :P");
+                updateBranchPrediciton(bp, false); // predicted wrong.. it was not taken
+                return 0;
+            }
+            updateBranchPrediciton(bp, true); // predicted right.. it was not taken
             pc.setRegisterValue(Helper.intToBinArray(address-1, pc.getRegisterValue().length));
             // we make it address -1 because it's going to increase by 1 at the end of the instruction anyways
+            return 0;
+
         }
+        updateBranchPrediciton(bp, false); // predicted right.. it was not taken
+
         return 0;
     }
 
-    public static int JNE(Register pc, Register r, int address) {
-        if (Helper.arrToInt(r.getRegisterValue()) != 0) {
+    public static int JNE(Register pc, Register r, int address, Register bp) {
+
+        boolean takeBranch = branchPrediction(bp);
+        if (Helper.arrToInt(r.getRegisterValue()) != 0 || takeBranch) {
+            if (!(Helper.arrToInt(r.getRegisterValue()) != 0)) {
+                System.out.println("Prediction wrong, fixing it :P");
+                updateBranchPrediciton(bp, false); // predicted wrong.. it was not taken
+                return 0;
+            }
+            updateBranchPrediciton(bp, true); // predicted right.. it was not taken
             pc.setRegisterValue(Helper.intToBinArray(address-1, pc.getRegisterValue().length));
             // we make it address -1 because it's going to increase by 1 at the end of the instruction anyways
+            return 0;
+
         }
+        updateBranchPrediciton(bp, false); // predicted right.. it was not taken
         return 0;
     }
 
-    public static int JCC(Register cc, Register pc, int bit, int address) {
-        if (cc.getRegisterValue()[bit] == 1) {
+    public static int JCC(Register cc, Register pc, int bit, int address, Register bp) {
+        boolean takeBranch = branchPrediction(bp);
+        if (cc.getRegisterValue()[bit] == 1 || takeBranch) {
+            if (cc.getRegisterValue()[bit] != 1) {
+                System.out.println("Prediction wrong, fixing it :P");
+                updateBranchPrediciton(bp, false); // predicted wrong.. it was not taken
+                return 0;
+            }
+            updateBranchPrediciton(bp, true); // predicted right.. it was not taken
             pc.setRegisterValue(Helper.intToBinArray(address-1, pc.getRegisterValue().length));
+            return 0;
+
+            // we make it address -1 because it's going to increase by 1 at the end of the instruction anyways
         }
+        updateBranchPrediciton(bp, false); // predicted right.. it was not taken
         return 0;
     }
     public static int JMA(Register pc, int address){
-        pc.setRegisterValue(Helper.intToBinArray(address-1, pc.getRegisterValue().length));
+
+        pc.setRegisterValue(Helper.intToBinArray(address, pc.getRegisterValue().length));
         return 0;
     }
-    public static int JSR(Register pc, Register r, int address) {
+    public static int JSR(Register pc, Register r, int address, Register bp) {
         int new_r3 = Helper.arrToInt(pc.getRegisterValue())+1;
         r.setRegisterValue(Helper.intToBinArray(new_r3, r.getRegisterValue().length));
         pc.setRegisterValue(Helper.intToBinArray(address, pc.getRegisterValue().length));
@@ -326,9 +470,22 @@ public class Instructions {
         }
         return 0;
     }
-    public static int JGE(Register pc, Register r, int address){
-        if (Helper.arrToInt(r.getRegisterValue()) >= 0)
+    public static int JGE(Register pc, Register r, int address, Register bp){
+        boolean takeBranch = branchPrediction(bp);
+
+        if (Helper.arrToInt(r.getRegisterValue()) >= 0 || takeBranch) {
+            if (!(Helper.arrToInt(r.getRegisterValue()) >= 0)) {
+                System.out.println("Prediction wrong, fixing it :P");
+                updateBranchPrediciton(bp, false); // predicted wrong.. it was not taken
+                return 0;
+            }
+            updateBranchPrediciton(bp, true); // predicted right.. it was not taken
             pc.setRegisterValue(Helper.intToBinArray(address-1,pc.getRegisterValue().length));
+            return 0;
+
+        }
+        updateBranchPrediciton(bp, false); // predicted wrong.. it was not taken
+
         return 0;
     }
 
@@ -502,6 +659,18 @@ public class Instructions {
         } else {
             r.setRegisterValue(Helper.intToBinArray(0, 16));
         }
+    }
+
+    public static int TRP(DRAM dram, Register PC) {
+        int [] currPC = PC.getRegisterValue();
+        int i = Helper.arrToInt(currPC);
+        dram.memset(Helper.intToBinArray(i, 16), 2); // save PC
+
+        PC.setRegisterValue(dram.fetchBinaryValue(0)); // PC set to value in 0
+
+        PC.setRegisterValue(dram.fetchBinaryValue(2));
+
+        return 0;
     }
 
 }

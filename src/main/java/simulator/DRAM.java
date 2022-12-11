@@ -51,7 +51,7 @@ public class DRAM {
         int cache_result = this.cache.cacheSearch(this, (int)EA / 16);
         if (cache_result != -1) { // HIT
             MBR.setRegisterValue(this.cache.getBlock(cache_result, address));
-            return EA;
+            return 0;
         } else{
             this.cache.placeBlock(this, (int)EA / 16, cache_result);
         }
@@ -59,7 +59,7 @@ public class DRAM {
 
         // validate address if fault occurs return with fault code
         returnCode = this.checkAddress(EA);
-        if (returnCode != 0) {
+        if (returnCode != -1) {
             return returnCode;
         }
 
@@ -73,9 +73,6 @@ public class DRAM {
         } else if (type.toUpperCase().compareTo("A") == 0) {
             int [] binaryEA = Helper.intToBinArray(EA, this.wordSize);
             MBR.setRegisterValue(binaryEA);
-        } else {
-            // machine fault 4
-            returnCode = 4;
         }
         // default no machine fault
         return returnCode;
@@ -109,7 +106,7 @@ public class DRAM {
 
         // validate address if fault occurs return with fault code
         returnCode = this.checkAddress(EA);
-        if (returnCode != 0) {
+        if (returnCode != -1) {
             return returnCode;
         }
 
@@ -117,6 +114,7 @@ public class DRAM {
             if (type.toUpperCase().compareTo("X") == 0) {
                 EA = Helper.arrToInt(MAR.getRegisterValue());
             }
+            System.out.println(String.format("USED EA=%d", EA));
             int cacheResult = this.cache.cacheSearch(this, (int)EA / 16);
             if (cacheResult != -1) { // if cache hit
                 this.cache.placeBlock(this, (int)EA / 16, cacheResult);
@@ -129,8 +127,6 @@ public class DRAM {
 
             // cache miss
             this.cache.placeBlock(this, (int)EA / 16, cacheResult);
-        }  else {
-            returnCode = 4;
         }
 
         return returnCode;
@@ -201,13 +197,15 @@ public class DRAM {
         exceed bounds. return the proper fault if it does.
          */
         int endAddress = address + this.wordSize;
-        if (address >= 0 && address <= 5) {
-            return 1;
-        } else if (address < 0 || address >= this.size || endAddress >= this.size) {
-            return 8;
-        } else if (address % this.wordSize != 0) {
-            System.out.println("Address is not on a word");
+//        if (address >= 0 && address <= 5) {
+//            return 1;
+//        }
+        if (address <= 5) {
+            return 0;
         }
-        return 0;
+        else if (address >= this.size || endAddress >= this.size) {
+            return 3;
+        }
+        return -1;
     }
 }
