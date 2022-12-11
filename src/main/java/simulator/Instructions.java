@@ -26,6 +26,65 @@ public class Instructions {
 
         return new int[]{1, 1, 1, 1};
     }
+
+    private static boolean branchPrediction(Register bp) {
+        int bpState;
+
+
+        bpState = Helper.arrToInt(bp.getRegisterValue());
+        System.out.println(String.format("Current State: %s", Integer.toString(bpState)));
+
+
+        if (bpState == 0 || bpState == 1) {
+            System.out.println("Predicting Branch Taken");
+            return true;
+        }
+        System.out.println("Predicting Branch Will NOT be Taken");
+
+        return false;
+    }
+
+    private static void updateBranchPrediciton(Register bp, boolean action) {
+        int bpState;
+        int newState;
+
+        bpState = Helper.arrToInt(bp.getRegisterValue());
+        if (bpState == 0) {
+            if (action) {
+                newState = 0;
+            } else{
+                newState = 1;
+            }
+        } else if (bpState == 1) {
+            if (action) {
+                newState = 0;
+            } else{
+                newState = 2;
+            }
+        }else if (bpState == 2) {
+            if (action) {
+                newState = 3;
+            } else{
+                newState = 2;
+            }
+        }else  {
+            if (action) {
+                newState = 0;
+            } else{
+                newState = 2;
+            }
+        }
+        System.out.println(String.format("OLD BRANCH PRED STATE %s", Integer.toString(bpState)));
+        System.out.println(String.format("NEW BRANCH PRED STATE %s", Integer.toString(newState)));
+        System.out.println(String.format("NEW BRANCH PRED STATE %s", Arrays.toString(Helper.intToBinArray(newState, 2))));
+
+            bp.setRegisterValue(Helper.intToBinArray(newState, 3));
+
+        System.out.println(String.format("BP VALUE %s", Integer.toString(Helper.arrToInt(bp.getRegisterValue()))));
+
+
+    }
+
     public static int LDR(DRAM dram, Register MAR, Register MBR, Register IX, Register registerTarget,
                           int indirect, Register MFR, Register PC) {
         /*
@@ -326,33 +385,69 @@ public class Instructions {
         return 0;
     }
 
-    public static int JZ(Register pc, Register r, int address) {
-        if (Helper.arrToInt(r.getRegisterValue()) == 0) {
+    public static int JZ(Register pc, Register r, int address, Register bp) {
+        boolean takeBranch = branchPrediction(bp);
+        System.out.println(String.format("Register Value: %s", Integer.toString(Helper.arrToInt(r.getRegisterValue()))));
+        if (Helper.arrToInt(r.getRegisterValue()) == 0 || takeBranch) {
+
+            if (!(Helper.arrToInt(r.getRegisterValue()) == 0)) {
+                System.out.println("Prediction wrong, fixing it :P");
+                updateBranchPrediciton(bp, false); // predicted wrong.. it was not taken
+                return 0;
+            }
+            updateBranchPrediciton(bp, true); // predicted right.. it was not taken
             pc.setRegisterValue(Helper.intToBinArray(address-1, pc.getRegisterValue().length));
             // we make it address -1 because it's going to increase by 1 at the end of the instruction anyways
+            return 0;
+
         }
+        updateBranchPrediciton(bp, false); // predicted right.. it was not taken
+
         return 0;
     }
 
-    public static int JNE(Register pc, Register r, int address) {
-        if (Helper.arrToInt(r.getRegisterValue()) != 0) {
+    public static int JNE(Register pc, Register r, int address, Register bp) {
+
+        boolean takeBranch = branchPrediction(bp);
+        if (Helper.arrToInt(r.getRegisterValue()) != 0 || takeBranch) {
+            if (!(Helper.arrToInt(r.getRegisterValue()) != 0)) {
+                System.out.println("Prediction wrong, fixing it :P");
+                updateBranchPrediciton(bp, false); // predicted wrong.. it was not taken
+                return 0;
+            }
+            updateBranchPrediciton(bp, true); // predicted right.. it was not taken
             pc.setRegisterValue(Helper.intToBinArray(address-1, pc.getRegisterValue().length));
             // we make it address -1 because it's going to increase by 1 at the end of the instruction anyways
+            return 0;
+
         }
+        updateBranchPrediciton(bp, false); // predicted right.. it was not taken
         return 0;
     }
 
-    public static int JCC(Register cc, Register pc, int bit, int address) {
-        if (cc.getRegisterValue()[bit] == 1) {
+    public static int JCC(Register cc, Register pc, int bit, int address, Register bp) {
+        boolean takeBranch = branchPrediction(bp);
+        if (cc.getRegisterValue()[bit] == 1 || takeBranch) {
+            if (cc.getRegisterValue()[bit] != 1) {
+                System.out.println("Prediction wrong, fixing it :P");
+                updateBranchPrediciton(bp, false); // predicted wrong.. it was not taken
+                return 0;
+            }
+            updateBranchPrediciton(bp, true); // predicted right.. it was not taken
             pc.setRegisterValue(Helper.intToBinArray(address-1, pc.getRegisterValue().length));
+            return 0;
+
+            // we make it address -1 because it's going to increase by 1 at the end of the instruction anyways
         }
+        updateBranchPrediciton(bp, false); // predicted right.. it was not taken
         return 0;
     }
     public static int JMA(Register pc, int address){
+
         pc.setRegisterValue(Helper.intToBinArray(address, pc.getRegisterValue().length));
         return 0;
     }
-    public static int JSR(Register pc, Register r, int address) {
+    public static int JSR(Register pc, Register r, int address, Register bp) {
         int new_r3 = Helper.arrToInt(pc.getRegisterValue())+1;
         r.setRegisterValue(Helper.intToBinArray(new_r3, r.getRegisterValue().length));
         pc.setRegisterValue(Helper.intToBinArray(address, pc.getRegisterValue().length));
@@ -375,9 +470,22 @@ public class Instructions {
         }
         return 0;
     }
-    public static int JGE(Register pc, Register r, int address){
-        if (Helper.arrToInt(r.getRegisterValue()) >= 0)
+    public static int JGE(Register pc, Register r, int address, Register bp){
+        boolean takeBranch = branchPrediction(bp);
+
+        if (Helper.arrToInt(r.getRegisterValue()) >= 0 || takeBranch) {
+            if (!(Helper.arrToInt(r.getRegisterValue()) >= 0)) {
+                System.out.println("Prediction wrong, fixing it :P");
+                updateBranchPrediciton(bp, false); // predicted wrong.. it was not taken
+                return 0;
+            }
+            updateBranchPrediciton(bp, true); // predicted right.. it was not taken
             pc.setRegisterValue(Helper.intToBinArray(address-1,pc.getRegisterValue().length));
+            return 0;
+
+        }
+        updateBranchPrediciton(bp, false); // predicted wrong.. it was not taken
+
         return 0;
     }
 

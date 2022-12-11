@@ -127,15 +127,15 @@ public class Parser {
                 break;
             case "001000": // Octal 10, Jump if zero
                 int[] params_10 = parse_for_jumps(in);
-                Instructions.JZ(c.PC, c.GPRs[params_10[0]], params_10[2]);
+                Instructions.JZ(c.PC, c.GPRs[params_10[0]], params_10[2], c.branchPredictor);
                 break;
             case "001001": // Octal 11, Jump if not zero
                 int[] params_11 = parse_for_jumps(in);
-                Instructions.JNE(c.PC, c.GPRs[params_11[0]], params_11[2]);
+                Instructions.JNE(c.PC, c.GPRs[params_11[0]], params_11[2], c.branchPredictor);
                 break;
             case "001010": // Octal 12, Jump if condition code
                 int[] params_12 = parse_for_jcc(in);
-                Instructions.JCC(c.CC, c.PC, params_12[0], params_12[1]);
+                Instructions.JCC(c.CC, c.PC, params_12[0], params_12[1], c.branchPredictor);
                 break;
             case "001011": // Octal 13, Jump to address
                 int[] params_13 = parse_for_jumps(in);
@@ -143,7 +143,7 @@ public class Parser {
                 break;
             case "001100": // Octal 14, Jump and save return address
                 int[] params_14 = parse_for_jumps(in);
-                Instructions.JSR(c.PC, c.GPRs[3], params_14[2]);
+                Instructions.JSR(c.PC, c.GPRs[3], params_14[2], c.branchPredictor);
                 break;
             case "001101": // Octal 15, Return from subroutine
                 int[] params_15 = parse_for_jumps(in);
@@ -155,7 +155,7 @@ public class Parser {
                 break;
             case "001111":
                 int[] params_17 = parse_for_jumps(in);
-                Instructions.JGE(c.PC, c.GPRs[params_17[0]], params_17[2]);
+                Instructions.JGE(c.PC, c.GPRs[params_17[0]], params_17[2], c.branchPredictor);
                 break;
             case "010000": // Octal 20, multiply register by register
                 int[] params_20 = parse_for_register_register_op(in);

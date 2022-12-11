@@ -35,6 +35,9 @@ public class Computer {
     Boolean flag;
     String buf;
 
+    Register branchPredictor;
+
+    Register branchTargetBuffer;
 
 
     /**
@@ -65,6 +68,11 @@ public class Computer {
 
         this.flag = false;
         this.buf = "";
+
+        this.branchPredictor = new Register(3);
+
+        this.branchTargetBuffer = new Register(16);
+        this.branchPredictor.setRegisterValue(Helper.intToBinArray(0, 3));
 
         // Initialize GPRs
         System.out.println("Initializing General Purpose Registers");

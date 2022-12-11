@@ -5,18 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d602c491-6be4-4115-90c1-2ffcc31615e3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/simulator/Program2Reader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Computer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Computer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/DRAM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/DRAM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/FileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/FileReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Helper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Helper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Instructions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Instructions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/UI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/simulator/CacheTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/simulator/CacheTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/simulator/DRAMTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,8 +215,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/simulator/Program2Reader.java</url>
-          <line>49</line>
+          <line>67</line>
           <option name="timeStamp" value="110" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/simulator/Program2Reader.java</url>
+          <line>22</line>
+          <option name="timeStamp" value="116" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -232,5 +230,10 @@
         <PinnedItemInfo parentTag="simulator.DRAM" memberName="cache" />
       </pinned-members>
     </pin-to-top-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/arch$Program2Reader.ic" NAME="Program2Reader Coverage Results" MODIFIED="1668812405286" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>simulator.*</FILTER>
+    </SUITE>
   </component>
 </project>
