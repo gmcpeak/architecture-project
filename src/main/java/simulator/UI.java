@@ -158,15 +158,32 @@ public class UI {
         console_area.add(console_keyboard);
         console_area.add(write_button);
 
+        JButton run_p1 = new JButton("Run program 1");
         JButton run_p2 = new JButton("Run program 2");
 
+        run_p1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                running_program = 1;
+                counter = 0;
+//                System.out.println("Running Program 1... Enter 20 Numbers.");
+
+
+                FileReader.fileReader(c.dram, c.PC, c.IR);
+                c.run();
+                refresh(c);
+            }
+        });
         run_p2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Program2Reader.readIntoMem(c, console_printer, console_keyboard, write_button);
                 c.flag = true;
+                refresh(c);
             }
         });
+
+        console_area.add(run_p1);
         console_area.add(run_p2);
 
         instruction_area = new JPanel();
@@ -234,36 +251,7 @@ public class UI {
         instruction_register = new JLabel("IR: 0000 0000 0000 0000");
         run_area.add(program_counter);
         run_area.add(instruction_register);
-        JButton load_program_button = new JButton("IPL (Load program.txt)");
-        load_program_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                running_program = 1;
-                counter = 0;
-//                System.out.println("Running Program 1... Enter 20 Numbers.");
 
-
-                FileReader.fileReader(c.dram, c.PC, c.IR);
-                refresh(c);
-            }
-        });
-        run_area.add(load_program_button);
-        JButton step_button = new JButton("Step");
-        step_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                c.step();
-            }
-        });
-        run_area.add(step_button);
-        JButton run_program_button = new JButton("Run");
-        run_program_button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                c.run();
-            }
-        });
-        run_area.add(run_program_button);
         program_area.add(run_area);
         JPanel memory_area = new JPanel(new GridLayout(3, 1));
         mar = new JLabel("MAR: 0000 0000 0000");
